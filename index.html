@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Agri-Price Forecaster | AI</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #f1f8e9;
+            --dark-color: #263238;
+            --light-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            background-color: #fff;
+        }
+
+        select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn-predict {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-predict:hover {
+            background-color: #1b5e20;
+        }
+
+        .result-section {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            display: none;
+            text-align: center;
+        }
+
+        .result-title {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .price-box {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .price-card {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            width: 40%;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .price-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: #558b2f;
+        }
+
+        .price-value {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .placeholder-chart {
+            background-color: #f5f5f5;
+            height: 150px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #757575;
+            border: 2px dashed #e0e0e0;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल</h1>
+        <p>AI और डेटा ड्रिवन मंडी भाव पूर्वानुमान प्लेटफॉर्म | डेवलपर: प्रतीक कुमार</p>
+    </header>
+
+    <div class="container">
+        <div class="dashboard-card">
+            <div class="form-group">
+                <label for="state">1. राज्य चुनें (Select State)</label>
+                <select id="state">
+                    <option value="">-- राज्य चुनें --</option>
+                    <option value="MH">महाराष्ट्र (Maharashtra)</option>
+                    <option value="DL">दिल्ली (Delhi)</option>
+                    <option value="UP">उत्तर प्रदेश (Uttar Pradesh)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mandi">2. मंडी चुनें (Select Mandi)</label>
+                <select id="mandi" disabled>
+                    <option value="">-- पहले राज्य चुनें --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="crop">3. फसल चुनें (Select Crop)</label>
+                <select id="crop">
+                    <option value="">-- फसल चुनें --</option>
+                    <option value="onion">प्याज (Onion)</option>
+                    <option value="tomato">टमाटर (Tomato)</option>
+                    <option value="potato">आलू (Potato)</option>
+                </select>
+            </div>
+
+            <button class="btn-predict" onclick="showPrediction()">AI प्रेडिक्शन देखें 🚀</button>
+        </div>
+
+        <div class="result-section" id="resultBox">
+            <h2 class="result-title">🎯 अगले 30 दिनों का अनुमानित भाव</h2>
+            <div class="price-box">
+                <div class="price-card">
+                    <h3>न्यूनतम भाव (Min Price)</h3>
+                    <p class="price-value" id="minPrice">₹00.00 / क्विंटल</p>
+                </div>
+                <div class="price-card">
+                    <h3>अधिकतम भाव (Max Price)</h3>
+                    <p class="price-value" id="maxPrice">₹00.00 / क्विंटल</p>
+                </div>
+            </div>
+            <div class="placeholder-chart">
+                📊 [यहाँ AI ट्रेंड लाइन चार्ट लोड होगा - डेटा सिंक करने के बाद]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stateSelect = document.getElementById('state');
+        const mandiSelect = document.getElementById('mandi');
+
+        const mandis = {
+            'MH': ['लासलगांव (Lasalgaon)', 'पुणे (Pune)', 'नागपुर (Nagpur)'],
+            'DL': ['आज़ादपुर (Azadpur)', 'ओखला (Okhla)'],
+            'UP': ['आगरा (Agra)', 'कानपुर (Kanpur)', 'लखनऊ (Lucknow)']
+        };
+
+        stateSelect.addEventListener('change', function() {
+            const selectedState = this.value;
+            mandiSelect.innerHTML = '<option value="">-- मंडी चुनें --</option>';
+            
+            if(selectedState && mandis[selectedState]) {
+                mandiSelect.disabled = false;
+                mandis[selectedState].forEach(function(mandi) {
+                    const opt = document.createElement('option');
+                    opt.value = mandi.toLowerCase();
+                    opt.innerHTML = mandi;
+                    mandiSelect.appendChild(opt);
+                });
+            } else {
+                mandiSelect.disabled = true;
+                mandiSelect.innerHTML = '<option value="">-- पहले राज्य चुनें --</option>';
+            }
+        });
+
+        function showPrediction() {
+            const state = document.getElementById('state').value;
+            const mandi = document.getElementById('mandi').value;
+            const crop = document.getElementById('crop').value;
+
+            if(!state || !mandi || !crop) {
+                alert('कृपया सभी विकल्प चुनें!');
+                return;
+            }
+
+            document.getElementById('minPrice').innerHTML = "₹2,100";
+            document.getElementById('maxPrice').innerHTML = "₹2,850";
+            
+            document.getElementById('resultBox').style.display = 'block';
+            document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
