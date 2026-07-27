@@ -3,268 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Agri-Price Forecaster V6</title>
-    <!-- 📈 चार्ट्स लोड करने के लिए Chart.js लाइब्रेरी -->
-    <script src="https://jsdelivr.net"></script>
+    <title>नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V4</title>
     <style>
-        :root {
-            --primary-color: #2e7d32;
-            --secondary-color: #f1f8e9;
-            --dark-color: #263238;
-            --light-color: #ffffff;
-            --accent-color: #f57c00;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fafafa;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        header {
-            background-color: var(--primary-color);
-            color: var(--light-color);
-            padding: 20px;
+        body {
+            background-color: #f4f6f9;
+        }
+        .header {
+            background-color: #2e7d32;
+            color: white;
             text-align: center;
+            padding: 20px 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
         }
-
-        header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
+        .header p {
+            font-size: 13px;
             opacity: 0.9;
+            line-height: 1.4;
         }
-
         .container {
-            max-width: 900px;
+            max-width: 500px;
             margin: 30px auto;
-            padding: 20px;
-        }
-
-        .search-card {
-            background-color: var(--light-color);
+            background: white;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 25px;
         }
-
-        .search-box {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            outline: none;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            transition: border-color 0.3s;
-        }
-
-        .search-box:focus {
-            border-color: var(--primary-color);
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
+        .form-group {
             margin-bottom: 20px;
         }
-
-        @media (max-width: 600px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 6px;
+            font-size: 15px;
             font-weight: 600;
-            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
         }
-
-        select {
+        .form-group select {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 15px;
+            color: #444;
             background-color: #fff;
             outline: none;
+            transition: border 0.3s;
         }
-
-        .btn-predict {
+        .form-group select:focus {
+            border-color: #2e7d32;
+        }
+        .btn {
             width: 100%;
-            background-color: var(--primary-color);
-            color: var(--light-color);
+            background-color: #2e7d32;
+            color: white;
             border: none;
             padding: 14px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+            margin-bottom: 15px;
         }
-
-        .btn-predict:hover {
+        .btn:hover {
             background-color: #1b5e20;
         }
-
-        .info-box {
-            background-color: #fff8e1;
-            border-left: 5px solid var(--accent-color);
-            padding: 15px;
+        /* Results Section Card Box Styling */
+        .result-card {
+            display: none; /* Hidden by default until search clicked */
+            background: #e8f5e9;
+            border-left: 6px solid #2e7d32;
+            padding: 18px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: left;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease-in-out;
         }
-
-        .info-box h3 {
-            margin: 0 0 8px 0;
-            color: #e65100;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card h3 {
+            color: #1b5e20;
             font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #a5d6a7;
+            padding-bottom: 6px;
         }
-
-        .result-section {
-            background-color: var(--light-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            display: none;
-            text-align: center;
-        }
-
-        .price-box {
+        .price-row {
             display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #333;
         }
-
-        .price-card {
-            background-color: var(--secondary-color);
-            padding: 15px;
-            border-radius: 8px;
-            width: 44%;
-            border-left: 5px solid var(--primary-color);
-        }
-
-        .price-value {
-            font-size: 24px;
+        .price-val {
             font-weight: bold;
-            margin: 5px 0 0 0;
-        }
-
-        .chart-container {
-            position: relative;
-            margin-top: 25px;
-            height: 320px;
-            width: 100%;
+            color: #2e7d32;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V6</h1>
-        <p>100% फिक्स्ड ड्रॉपडाउन, लाइव सर्च और ऑल-इंडिया वास्तविक मंडी भाव | डेवलपर: प्रतीक कुमार</p>
-    </header>
+    <div class="header">
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</h1>
+        <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
+    </div>
 
     <div class="container">
-        <div class="search-card">
-            <!-- 🔍 लाइव स्मार्ट सर्च बार -->
-            <input type="text" id="mandiSearch" class="search-box" placeholder="🔍 अपनी मंडी, राज्य या फसल का नाम टाइप करें (उदा: Azadpur, प्याज, Maharashtra, गेहूं)..." onkeyup="filterData()">
-
-            <div class="grid-layout">
-                <div>
-                    <label for="state">1. राज्य चुनें (Select State)</label>
-                    <select id="state" onchange="updateOptions()">
-                        <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
-                        <option value="Delhi">Delhi (दिल्ली)</option>
-                        <option value="Punjab">Punjab (पंजाब)</option>
-                        <option value="Rajasthan">Rajasthan (राजस्थान)</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
-                        <option value="West Bengal">West Bengal (पश्चिम बंगाल)</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
-                        <option value="Karnataka">Karnataka (कर्नाटक)</option>
-                        <option value="Bihar">Bihar (बिहार)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="mandi">2. मंडी चुनें (Select Mandi)</label>
-                    <select id="mandi">
-                        <!-- डिफ़ॉल्ट रूप से महाराष्ट्र की मंडियां लोड रहेंगी ताकि खाली न दिखे -->
-                        <option value="Lasalgaon (लासलगांव)">Lasalgaon (लासलगांव)</option>
-                        <option value="Pune (पुणे)">Pune (पुणे)</option>
-                        <option value="Nagpur (नागपुर)">Nagpur (नागपुर)</option>
-                        <option value="Mumbai (मुंबई)">Mumbai (मुंबई)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="crop">3. फसल/सब्जी चुनें (Select Crop)</label>
-                    <select id="crop" onchange="showCropGrowthInfo()">
-                        <option value="wheat">गेहूं (Wheat)</option>
-                        <option value="rice">धान/चावल (Rice)</option>
-                        <option value="onion">प्याज (Onion)</option>
-                        <option value="tomato">टमाटर (Tomato)</option>
-                        <option value="potato">आलू (Potato)</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- 📍 लाइव क्रॉप प्रोडक्शन इन्फो ज़ोन (डिफ़ॉल्ट रूप से गेहूं की जानकारी ऑन रहेगी) -->
-            <div class="info-box" id="cropInfoBox">
-                <h3 id="infoTitle">📍 WHEAT भारत में कहाँ उगता है? (Geographical Data)</h3>
-                <p id="infoContent" style="margin:0; font-size:14px; line-height: 1.5;">🌾 **मुख्य उत्पादक राज्य**: उत्तर Pradesh (नंबर #1), पंजाब, मध्य प्रदेश, हरियाणा, बिहार और राजस्थान।<br>🌱 **अनुकूल मिट्टी**: इसके लिए उपजाऊ दोमट (Loam) और कछार की मिट्टी सबसे अच्छी मानी जाती है।</p>
-            </div>
-
-            <button class="btn-predict" onclick="generateAIPrice()">AI प्रेडिक्शन और चार्ट देखें 🚀</button>
+        <!-- 1. State Input -->
+        <div class="form-group">
+            <label>1. राज्य चुनें (Select State)</label>
+            <select id="stateSelect" onchange="updateMandis()">
+                <option value="">--राज्य चुनें / Select State--</option>
+            </select>
         </div>
 
-        <div class="result-section" id="resultBox">
-            <h2 id="resultHeader" style="color: var(--primary-color); margin-top:0;">🎯 प्रेडिक्शन परिणाम</h2>
-            <div class="price-box">
-                <div class="price-card">
-                    <h3 style="margin:0; font-size:14px; color:#558b2f;">न्यूनतम भाव (Min Price)</h3>
-                    <p class="price-value" id="minPrice">₹00.00</p>
-                </div>
-                <div class="price-card">
-                    <h3>अधिकतम भाव (Max Price)</h3>
-                    <p class="price-value" id="maxPrice">₹00.00</p>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <canvas id="predictionChart"></canvas>
-            </div>
+        <!-- 2. Mandi Input -->
+        <div class="form-group">
+            <label>2. मंडी चुनें (Select Mandi)</label>
+            <select id="mandiSelect">
+                <option value="">--पहले राज्य चुनें / Select State First--</option>
+            </select>
+        </div>
+
+        <!-- 3. Vegetable/Crop Input -->
+        <div class="form-group">
+            <label>3. फसल/सब्जी चुनें (Select Crop)</label>
+            <select id="cropSelect">
+                <option value="">--सब्जी या फसल चुनें / Select Crop--</option>
+            </select>
+        </div>
+
+        <!-- Search Action Trigger -->
+        <button class="btn" onclick="searchMandiPrices()">
+            AI प्रेडिक्शन और चार्ट देखें 🚀
+        </button>
+
+        <!-- Dynamic Output Matrix Board -->
+        <div class="result-card" id="priceOutputCard">
+            <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
+            <div class="price-row"><span>न्यूनतम भाव (Min Price):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
+            <div class="price-row"><span>अधिकतम भाव (Max Price):</span> <span class="price-val" id="maxPrice">₹0 /kg</span></div>
+            <div class="price-row"><span>औसत भाव (Modal Price):</span> <span class="price-val" id="avgPrice">₹0 /kg</span></div>
         </div>
     </div>
 
     <script>
-        // 📋 वास्तविक राज्य और मंडी नेटवर्क मैपिंग
-        const stateMandis = {
-            'Maharashtra': ['Lasalgaon (लासलगांव)', 'Pune (पुणे)', 'Nagpur (नागपुर)', 'Mumbai (मुंबई)'],
-            'Uttar Pradesh': ['Agra (आगरा)', 'Lucknow (लखनऊ)', 'Kanpur (कानपुर)', 'Varanasi (वाराणसी)'],
-            'Delhi': ['Azadpur (आज़ादपुर)', 'Okhla (ओखला)', 'Ghazipur (गाज़ीपुर)'],
-            'Punjab': ['Ludhiana (लुधियाना)', 'Amritsar (अमृतसर)', 'Jalandhar (जालंधर)'],
-            'Rajasthan': ['Jaipur (जयपुर)', 'Kota (कोटा)', 'Sri Ganganagar (श्री गंगानगर)'],
-            'Madhya Pradesh': ['Indore (इन्दौर)', 'Bhopal (भोपाल)', 'Mandsaur (मंदसौर)'],
-            'West Bengal': ['Kolkata (कोलकाता)', 'Siliguri (सिलीगुड़ी)', 'Burdwan (बर्धमान)'],
-            'Andhra Pradesh': ['Guntur (गुंटूर)', 'Vijayawada (विजयवाड़ा)', 'Kurnool (कुरनूल)'],
-            'Karnataka': ['Bengaluru (बेंगलुरु)', 'Mysuru (मैसूरु)', 'Kolar (कोलार)'],
-            'Bihar': ['Patna (पटना)', 'Muzaffarpur (मुजफ्फरपुर)', 'Gaya (गया)']
+        // Data Structure mapping all 28 authentic Indian States with major local Mandis
+        const agriData = {
+            "Andhra Pradesh (आंध्र प्रदेश)": ["Guntur", "Kurnool", "Vijayawada", "Adoni"],
+            "Arunachal Pradesh (अरुणाचल प्रदेश)": ["Pasighat", "Namsai", "Naharlagun"],
+            "Assam (असम)": ["Guwahati", "Jorhat", "Silchar", "Nagaon"],
+            "Bihar (बिहार)": ["Gulabbagh", "Muzaffarpur", "Patna", "Bhagalpur"],
+            "Chhattisgarh (छत्तीसगढ़)": ["Raipur", "Durg", "Bilaspur", "Rajnandgaon"],
+            "Goa (गोवा)": ["Margao", "Mapusa", "Panaji"],
+            "Gujarat (गुजरात)": ["Gondal", "Rajkot", "Surat", "Ahmedabad"],
+            "Haryana (हरियाणा)": ["Karnal", "Ambala", "Sirsa", "Rohtak"],
+            "Himachal Pradesh (हिमाचल प्रदेश)": ["Shimla", "Solan", "Kullu", "Kangra"],
+            "Jharkhand (झारखंड)": ["Ranchi", "Jamshedpur", "Dhanbad", "Hazaribagh"],
+            "Karnataka (कर्नाटक)": ["Bengaluru", "Hubli", "Mysuru", "Tumakuru"],
+            "Kerala (केरल)": ["Kochi", "Kozhikode", "Thiruvananthapuram", "Alappuzha"],
+            "Madhya Pradesh (मध्य प्रदेश)": ["Indore", "Bhopal", "Ujjain", "Mandsaur"],
+            "Maharashtra (महाराष्ट्र)": ["Pune (पुणे)", "Mumbai (मुंबई)", "Nashik (नाशिक)", "Nagpur (नागपुर)"],
+            "Manipur (मणिपुर)": ["Imphal", "Thoubal"],
+            "Meghalaya (मेघालय)": ["Shillong", "Tura"],
+            "Mizoram (मिजोरम)": ["Aizawl", "Lunglei"],
+            "Nagaland (नागालैंड)": ["Dimapur", "Kohima"],
+            "Odisha (ओडिशा)": ["Bhubaneswar", "Cuttack", "Sambalpur", "Bargarh"],
+            "Punjab (पंजाब)": ["Khanna", "Ludhiana", "Amritsar", "Jalandhar"],
+            "Rajasthan (राजस्थान)": ["Jaipur", "Jodhpur", "Sri Ganganagar", "Kota"],
+            "Sikkim (सिक्किम)": ["Gangtok", "Namchi"],
+            "Tamil Nadu (तमिलनाडु)": ["Chennai", "Coimbatore", "Madurai", "Trichy"],
+            "Telangana (तेलंगाना)": ["Warangal", "Nizamabad", "Khammam", "Hyderabad"],
+            "Tripura (त्रिपुरा)": ["Agartala", "Udaipur"],
+            "Uttar Pradesh (उत्तर प्रदेश)": ["Agra", "Kanpur", "Lucknow", "Varanasi"],
+            "Uttarakhand (उत्तर प्रदेश)": ["Haldwani", "Dehradun", "Kashipur", "Rudrapur"],
+            "West Bengal (पश्चिम बंगाल)": ["Kolkata", "Siliguri", "Burdwan", "Asansol"]
         };
 
-        // 📊 बिल्कुल सटीक स्टेट-वाइज और क्रॉप-वाइज प्राइसेज
-        const realAgriPrices = {
-            'wheat': {
-                'Uttar Pradesh': { min: 2450, max: 2680 }, 'Punjab': { min: 2425, max: 2600 },
+        // Master lists of standard local items
+        const cropsList = [
+            "आलू (Potato)", "प्याज (Onion)", "टमाटर (Tomato)", "लहसुन (Garlic)", 
+            "अदरक (Ginger)", "हरी मिर्च (Green Chillies)", "गोभी (Cauliflower)", 
+            "बैंगन (Brinjal)", "भिंडी (Lady Finger)", "चना (Gram)", "गेहूं (Wheat)"
+        ];
+
+        // Central Baseline values mapping database
+        const standardBasePrices = {
+            "आलू (Potato)": { min: 14, max: 26 },
+            "प्याज (Onion)": { min: 28, max: 50 },
+            "टमाटर (Tomato)": { min: 16, max: 34 },
+            "लहसुन (Garlic)": { min: 95, max: 160 },
+            "अदरक (Ginger)": { min: 65, max: 120 },
+            "हरी मिर्च (Green Chillies)": { min: 35, max: 60 },
+            "गोभी (Cauliflower)": { min: 22, max: 42 },
+            "बैंगन (Brinjal)": { min: 18, max: 32 },
+            "भिंडी (Lady Finger)": { min: 25, max: 48 },
+            "चना (Gram)": { min: 52, max: 78 },
+            "गेहूं (Wheat)": { min: 24, max: 32 }
+        };
+
+        // Inject options on page mount
+        window.onload = function() {
+            const stateSelect = document.getElementById("stateSelect");
+            const cropSelect = document.getElementById("cropSelect");
+
+            for (let state in agriData) {
+                let opt = document.createElement("option");
+                opt.value = state;
+                opt.innerHTML = state;
+                stateSelect.appendChild(opt);
+            }
+
+            cropsList.forEach(crop => {
+                let opt = document.createElement("option");
+                opt.value = crop;
+                opt.innerHTML = crop;
+                cropSelect.appendChild(opt);
+            });
+        };
+
+        // Cascade filter updates for dependent dropdown
+        function updateMandis() {
+            const stateSelect = document.getElementById("stateSelect");
+            const mandiSelect = document.getElementById("mandiSelect");
+            const selectedState = stateSelect.value;
+
+            mandiSelect.innerHTML = '<option value="">--मंडी चुनें / Select Mandi--</option>';
+
+            if (selectedState && agriData[selectedState]) {
+                agriData[selectedState].forEach(mandi => {
+                    let opt = document.createElement("option");
+                    opt.value = mandi;
+                    opt.innerHTML = mandi;
+                    mandiSelect.appendChild(opt);
+                });
