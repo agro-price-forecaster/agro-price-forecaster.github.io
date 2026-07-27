@@ -82,18 +82,18 @@
         .btn:hover {
             background-color: #1b5e20;
         }
-        /* Results Section Card Box Styling */
+        /* Live Dynamic Output Card Styling */
         .result-card {
-            display: none; /* Hidden by default until search clicked */
+            display: none; /* Hidden on load */
             background: #e8f5e9;
             border-left: 6px solid #2e7d32;
             padding: 18px;
             border-radius: 8px;
             margin-top: 20px;
-            animation: fadeIn 0.4s ease-in-out;
+            animation: slideDown 0.3s ease-in-out;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .result-card h3 {
@@ -120,7 +120,7 @@
 <body>
 
     <div class="header">
-        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</h1>
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V4</h1>
         <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
     </div>
 
@@ -141,7 +141,7 @@
             </select>
         </div>
 
-        <!-- 3. Vegetable/Crop Input -->
+        <!-- 3. Vegetable Input -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
@@ -149,12 +149,12 @@
             </select>
         </div>
 
-        <!-- Search Action Trigger -->
+        <!-- Search Action Button -->
         <button class="btn" onclick="searchMandiPrices()">
             AI प्रेडिक्शन और चार्ट देखें 🚀
         </button>
 
-        <!-- Dynamic Output Matrix Board -->
+        <!-- Dynamic Output Container -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min Price):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
@@ -164,92 +164,79 @@
     </div>
 
     <script>
-        // Data Structure mapping all 28 authentic Indian States with major local Mandis
+        // Complete Database: Mapped 28 States directly with authentic primary Mandis
         const agriData = {
-            "Andhra Pradesh (आंध्र प्रदेश)": ["Guntur", "Kurnool", "Vijayawada", "Adoni"],
-            "Arunachal Pradesh (अरुणाचल प्रदेश)": ["Pasighat", "Namsai", "Naharlagun"],
-            "Assam (असम)": ["Guwahati", "Jorhat", "Silchar", "Nagaon"],
-            "Bihar (बिहार)": ["Gulabbagh", "Muzaffarpur", "Patna", "Bhagalpur"],
-            "Chhattisgarh (छत्तीसगढ़)": ["Raipur", "Durg", "Bilaspur", "Rajnandgaon"],
-            "Goa (गोवा)": ["Margao", "Mapusa", "Panaji"],
-            "Gujarat (गुजरात)": ["Gondal", "Rajkot", "Surat", "Ahmedabad"],
-            "Haryana (हरियाणा)": ["Karnal", "Ambala", "Sirsa", "Rohtak"],
-            "Himachal Pradesh (हिमाचल प्रदेश)": ["Shimla", "Solan", "Kullu", "Kangra"],
-            "Jharkhand (झारखंड)": ["Ranchi", "Jamshedpur", "Dhanbad", "Hazaribagh"],
-            "Karnataka (कर्नाटक)": ["Bengaluru", "Hubli", "Mysuru", "Tumakuru"],
-            "Kerala (केरल)": ["Kochi", "Kozhikode", "Thiruvananthapuram", "Alappuzha"],
-            "Madhya Pradesh (मध्य प्रदेश)": ["Indore", "Bhopal", "Ujjain", "Mandsaur"],
-            "Maharashtra (महाराष्ट्र)": ["Pune (पुणे)", "Mumbai (मुंबई)", "Nashik (नाशिक)", "Nagpur (नागपुर)"],
-            "Manipur (मणिपुर)": ["Imphal", "Thoubal"],
-            "Meghalaya (मेघालय)": ["Shillong", "Tura"],
-            "Mizoram (मिजोरम)": ["Aizawl", "Lunglei"],
-            "Nagaland (नागालैंड)": ["Dimapur", "Kohima"],
-            "Odisha (ओडिशा)": ["Bhubaneswar", "Cuttack", "Sambalpur", "Bargarh"],
-            "Punjab (पंजाब)": ["Khanna", "Ludhiana", "Amritsar", "Jalandhar"],
-            "Rajasthan (राजस्थान)": ["Jaipur", "Jodhpur", "Sri Ganganagar", "Kota"],
-            "Sikkim (सिक्किम)": ["Gangtok", "Namchi"],
-            "Tamil Nadu (तमिलनाडु)": ["Chennai", "Coimbatore", "Madurai", "Trichy"],
-            "Telangana (तेलंगाना)": ["Warangal", "Nizamabad", "Khammam", "Hyderabad"],
-            "Tripura (त्रिपुरा)": ["Agartala", "Udaipur"],
-            "Uttar Pradesh (उत्तर प्रदेश)": ["Agra", "Kanpur", "Lucknow", "Varanasi"],
-            "Uttarakhand (उत्तर प्रदेश)": ["Haldwani", "Dehradun", "Kashipur", "Rudrapur"],
-            "West Bengal (पश्चिम बंगाल)": ["Kolkata", "Siliguri", "Burdwan", "Asansol"]
+            "Andhra Pradesh (आंध्र प्रदेश)": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi", "Adoni Mandi"],
+            "Arunachal Pradesh (अरुणाचल प्रदेश)": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
+            "Assam (असम)": ["Guwahati Mandi", "Jorhat Mandi", "Silchar Mandi", "Nagaon Mandi"],
+            "Bihar (बिहार)": ["Gulabbagh Mandi", "Muzaffarpur Mandi", "Patna Mandi", "Bhagalpur Mandi"],
+            "Chhattisgarh (छत्तीसगढ़)": ["Raipur Mandi", "Durg Mandi", "Bilaspur Mandi", "Rajnandgaon Mandi"],
+            "Goa (गोवा)": ["Margao Mandi", "Mapusa Mandi", "Panaji Mandi"],
+            "Gujarat (गुजरात)": ["Gondal Mandi", "Rajkot Mandi", "Surat Mandi", "Ahmedabad Mandi"],
+            "Haryana (हरियाणा)": ["Karnal Mandi", "Ambala Mandi", "Sirsa Mandi", "Rohtak Mandi"],
+            "Himachal Pradesh (हिमाचल प्रदेश)": ["Shimla Mandi", "Solan Mandi", "Kullu Mandi", "Kangra Mandi"],
+            "Jharkhand (झारखंड)": ["Ranchi Mandi", "Jamshedpur Mandi", "Dhanbad Mandi", "Hazaribagh Mandi"],
+            "Karnataka (कर्नाटक)": ["Bengaluru Mandi", "Hubli Mandi", "Mysuru Mandi", "Tumakuru Mandi"],
+            "Kerala (केरल)": ["Kochi Mandi", "Kozhikode Mandi", "Thiruvananthapuram Mandi", "Alappuzha Mandi"],
+            "Madhya Pradesh (मध्य प्रदेश)": ["Indore Mandi", "Bhopal Mandi", "Ujjain Mandi", "Mandsaur Mandi"],
+            "Maharashtra (महाराष्ट्र)": ["Pune Mandi (पुणे)", "Mumbai Mandi (मुंबई)", "Nashik Mandi (नाशिक)", "Nagpur Mandi (नागपुर)"],
+            "Manipur (मणिपुर)": ["Imphal Mandi", "Thoubal Mandi"],
+            "Meghalaya (मेघालय)": ["Shillong Mandi", "Tura Mandi"],
+            "Mizoram (मिजोरम)": ["Aizawl Mandi", "Lunglei Mandi"],
+            "Nagaland (नागालैंड)": ["Dimapur Mandi", "Kohima Mandi"],
+            "Odisha (ओडिशा)": ["Bhubaneswar Mandi", "Cuttack Mandi", "Sambalpur Mandi", "Bargarh Mandi"],
+            "Punjab (पंजाब)": ["Khanna Mandi", "Ludhiana Mandi", "Amritsar Mandi", "Jalandhar Mandi"],
+            "Rajasthan (राजस्थान)": ["Jaipur Mandi", "Jodhpur Mandi", "Sri Ganganagar Mandi", "Kota Mandi"],
+            "Sikkim (सिक्किम)": ["Gangtok Mandi", "Namchi Mandi"],
+            "Tamil Nadu (तमिलनाडु)": ["Chennai Mandi", "Coimbatore Mandi", "Madurai Mandi", "Trichy Mandi"],
+            "Telangana (तेलंगाना)": ["Warangal Mandi", "Nizamabad Mandi", "Khammam Mandi", "Hyderabad Mandi"],
+            "Tripura (त्रिपुरा)": ["Agartala Mandi", "Udaipur Mandi"],
+            "Uttar Pradesh (उत्तर प्रदेश)": ["Agra Mandi", "Kanpur Mandi", "Lucknow Mandi", "Varanasi Mandi"],
+            "Uttarakhand (उत्तराखंड)": ["Haldwani Mandi", "Dehradun Mandi", "Kashipur Mandi", "Rudrapur Mandi"],
+            "West Bengal (पश्चिम बंगाल)": ["Kolkata Mandi", "Siliguri Mandi", "Burdwan Mandi", "Asansol Mandi"]
         };
 
-        // Master lists of standard local items
+        // Master dynamic list of items/crops for element 3
         const cropsList = [
             "आलू (Potato)", "प्याज (Onion)", "टमाटर (Tomato)", "लहसुन (Garlic)", 
             "अदरक (Ginger)", "हरी मिर्च (Green Chillies)", "गोभी (Cauliflower)", 
             "बैंगन (Brinjal)", "भिंडी (Lady Finger)", "चना (Gram)", "गेहूं (Wheat)"
         ];
 
-        // Central Baseline values mapping database
+        // Realistic Base Price Index mapping database per standard Agmarknet data
         const standardBasePrices = {
-            "आलू (Potato)": { min: 14, max: 26 },
-            "प्याज (Onion)": { min: 28, max: 50 },
-            "टमाटर (Tomato)": { min: 16, max: 34 },
-            "लहसुन (Garlic)": { min: 95, max: 160 },
-            "अदरक (Ginger)": { min: 65, max: 120 },
-            "हरी मिर्च (Green Chillies)": { min: 35, max: 60 },
-            "गोभी (Cauliflower)": { min: 22, max: 42 },
-            "बैंगन (Brinjal)": { min: 18, max: 32 },
-            "भिंडी (Lady Finger)": { min: 25, max: 48 },
-            "चना (Gram)": { min: 52, max: 78 },
+            "आलू (Potato)": { min: 15, max: 28 },
+            "प्याज (Onion)": { min: 30, max: 55 },
+            "टमाटर (Tomato)": { min: 20, max: 40 },
+            "लहसुन (Garlic)": { min: 100, max: 180 },
+            "अदरक (Ginger)": { min: 70, max: 130 },
+            "हरी मिर्च (Green Chillies)": { min: 35, max: 65 },
+            "गोभी (Cauliflower)": { min: 25, max: 45 },
+            "बैंगन (Brinjal)": { min: 18, max: 35 },
+            "भिंडी (Lady Finger)": { min: 28, max: 50 },
+            "चना (Gram)": { min: 55, max: 80 },
             "गेहूं (Wheat)": { min: 24, max: 32 }
         };
 
-        // Inject options on page mount
+        // Initial setup on page load
         window.onload = function() {
             const stateSelect = document.getElementById("stateSelect");
             const cropSelect = document.getElementById("cropSelect");
 
+            // Fill State Selector
             for (let state in agriData) {
                 let opt = document.createElement("option");
                 opt.value = state;
-                opt.innerHTML = state;
+                opt.innerText = state;
                 stateSelect.appendChild(opt);
             }
 
+            // Fill Crop/Vegetable Selector
             cropsList.forEach(crop => {
                 let opt = document.createElement("option");
                 opt.value = crop;
-                opt.innerHTML = crop;
+                opt.innerText = crop;
                 cropSelect.appendChild(opt);
             });
         };
 
-        // Cascade filter updates for dependent dropdown
-        function updateMandis() {
-            const stateSelect = document.getElementById("stateSelect");
-            const mandiSelect = document.getElementById("mandiSelect");
-            const selectedState = stateSelect.value;
-
-            mandiSelect.innerHTML = '<option value="">--मंडी चुनें / Select Mandi--</option>';
-
-            if (selectedState && agriData[selectedState]) {
-                agriData[selectedState].forEach(mandi => {
-                    let opt = document.createElement("option");
-                    opt.value = mandi;
-                    opt.innerHTML = mandi;
-                    mandiSelect.appendChild(opt);
-                });
