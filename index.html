@@ -124,15 +124,43 @@
     </div>
 
     <div class="container">
-        <!-- 1. State Selector -->
+        <!-- 1. Hardcoded 28 States Dropdown -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
-            <select id="stateSelect" onchange="updateMandis()">
+            <select id="stateSelect" onchange="updateMandisStatic()">
                 <option value="">--राज्य चुनें / Select State--</option>
+                <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh (अरुणाचल प्रदेश)</option>
+                <option value="Assam">Assam (असम)</option>
+                <option value="Bihar">Bihar (बिहार)</option>
+                <option value="Chhattisgarh">Chhattisgarh (छत्तीसगढ़)</option>
+                <option value="Goa">Goa (गोवा)</option>
+                <option value="Gujarat">Gujarat (गुजरात)</option>
+                <option value="Haryana">Haryana (हरियाणा)</option>
+                <option value="Himachal Pradesh">Himachal Pradesh (हिमाचल प्रदेश)</option>
+                <option value="Jharkhand">Jharkhand (झारखंड)</option>
+                <option value="Karnataka">Karnataka (कर्नाटक)</option>
+                <option value="Kerala">Kerala (केरल)</option>
+                <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+                <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+                <option value="Manipur">Manipur (मणिपुर)</option>
+                <option value="Meghalaya">Meghalaya (मेघालय)</option>
+                <option value="Mizoram">Mizoram (मिजोरम)</option>
+                <option value="Nagaland">Nagaland (नागालैंड)</option>
+                <option value="Odisha">Odisha (ओडिशा)</option>
+                <option value="Punjab">Punjab (पंजाब)</option>
+                <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+                <option value="Sikkim">Sikkim (सिक्किम)</option>
+                <option value="Tamil Nadu">Tamil Nadu (तमिलनाडु)</option>
+                <option value="Telangana">Telangana (तेलंगाना)</option>
+                <option value="Tripura">Tripura (त्रिपुरा)</option>
+                <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+                <option value="Uttarakhand">Uttarakhand (उत्तराखंड)</option>
+                <option value="West Bengal">West Bengal (पश्चिम बंगाल)</option>
             </select>
         </div>
 
-        <!-- 2. Mandi Selector -->
+        <!-- 2. Dynamic Mandi Dropdown -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
@@ -140,20 +168,31 @@
             </select>
         </div>
 
-        <!-- 3. Vegetable Selector -->
+        <!-- 3. Hardcoded Vegetables Dropdown -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
                 <option value="">--सब्जी या फसल चुनें / Select Crop--</option>
+                <option value="आलू (Potato)">आलू (Potato)</option>
+                <option value="प्याज (Onion)">प्याज (Onion)</option>
+                <option value="टमाटर (Tomato)">टमाटर (Tomato)</option>
+                <option value="लहसुन (Garlic)">लहसुन (Garlic)</option>
+                <option value="अदरक (Ginger)">अदरक (Ginger)</option>
+                <option value="हरी मिर्च (Green Chillies)">हरी मिर्च (Green Chillies)</option>
+                <option value="गोभी (Cauliflower)">गोभी (Cauliflower)</option>
+                <option value="बैंगन (Brinjal)">बैंगन (Brinjal)</option>
+                <option value="भिंडी (Lady Finger)">भिंडी (Lady Finger)</option>
+                <option value="चना (Gram)">चना (Gram)</option>
+                <option value="गेहूं (Wheat)">गेहूं (Wheat)</option>
             </select>
         </div>
 
-        <!-- Submit Button -->
-        <button class="btn" onclick="searchMandiPrices()">
+        <!-- Submit Search Button -->
+        <button class="btn" onclick="executePriceSearch()">
             AI प्रेडिक्शन और चार्ट देखें 🚀
         </button>
 
-        <!-- Result Box Dashboard Display -->
+        <!-- Final Price Result Container Box -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min Price):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
@@ -163,82 +202,32 @@
     </div>
 
     <script>
-        // Data Arrays mapping full 28 States & specific Mandis
-        const agriData = {
-            "Andhra Pradesh (आंध्र प्रदेश)": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi", "Adoni Mandi"],
-            "Arunachal Pradesh (अरुणाचल प्रदेश)": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
-            "Assam (असम)": ["Guwahati Mandi", "Jorhat Mandi", "Silchar Mandi", "Nagaon Mandi"],
-            "Bihar (बिहार)": ["Gulabbagh Mandi", "Muzaffarpur Mandi", "Patna Mandi", "Bhagalpur Mandi"],
-            "Chhattisgarh (छत्तीसगढ़)": ["Raipur Mandi", "Durg Mandi", "Bilaspur Mandi", "Rajnandgaon Mandi"],
-            "Goa (गोवा)": ["Margao Mandi", "Mapusa Mandi", "Panaji Mandi"],
-            "Gujarat (गुजरात)": ["Gondal Mandi", "Rajkot Mandi", "Surat Mandi", "Ahmedabad Mandi"],
-            "Haryana (हरियाणा)": ["Karnal Mandi", "Ambala Mandi", "Sirsa Mandi", "Rohtak Mandi"],
-            "Himachal Pradesh (हिमाचल प्रदेश)": ["Shimla Mandi", "Solan Mandi", "Kullu Mandi", "Kangra Mandi"],
-            "Jharkhand (झारखंड)": ["Ranchi Mandi", "Jamshedpur Mandi", "Dhanbad Mandi", "Hazaribagh Mandi"],
-            "Karnataka (कर्नाटक)": ["Bengaluru Mandi", "Hubli Mandi", "Mysuru Mandi", "Tumakuru Mandi"],
-            "Kerala (केरल)": ["Kochi Mandi", "Kozhikode Mandi", "Thiruvananthapuram Mandi", "Alappuzha Mandi"],
-            "Madhya Pradesh (मध्य प्रदेश)": ["Indore Mandi", "Bhopal Mandi", "Ujjain Mandi", "Mandsaur Mandi"],
-            "Maharashtra (महाराष्ट्र)": ["Pune Mandi (पुणे)", "Mumbai Mandi (मुंबई)", "Nashik Mandi (नाशिक)", "Nagpur Mandi (नागपुर)"],
-            "Manipur (मणिपुर)": ["Imphal Mandi", "Thoubal Mandi"],
-            "Meghalaya (मेघालय)": ["Shillong Mandi", "Tura Mandi"],
-            "Mizoram (मिजोरम)": ["Aizawl Mandi", "Lunglei Mandi"],
-            "Nagaland (नागालैंड)": ["Dimapur Mandi", "Kohima Mandi"],
-            "Odisha (ओडिशा)": ["Bhubaneswar Mandi", "Cuttack Mandi", "Sambalpur Mandi", "Bargarh Mandi"],
-            "Punjab (पंजाब)": ["Khanna Mandi", "Ludhiana Mandi", "Amritsar Mandi", "Jalandhar Mandi"],
-            "Rajasthan (राजस्थान)": ["Jaipur Mandi", "Jodhpur Mandi", "Sri Ganganagar Mandi", "Kota Mandi"],
-            "Sikkim (सिक्किम)": ["Gangtok Mandi", "Namchi Mandi"],
-            "Tamil Nadu (तमिलनाडु)": ["Chennai Mandi", "Coimbatore Mandi", "Madurai Mandi", "Trichy Mandi"],
-            "Telangana (तेलंगाना)": ["Warangal Mandi", "Nizamabad Mandi", "Khammam Mandi", "Hyderabad Mandi"],
-            "Tripura (त्रिपुरा)": ["Agartala Mandi", "Udaipur Mandi"],
-            "Uttar Pradesh (उत्तर प्रदेश)": ["Agra Mandi", "Kanpur Mandi", "Lucknow Mandi", "Varanasi Mandi"],
-            "Uttarakhand (उत्तराखंड)": ["Haldwani Mandi", "Dehradun Mandi", "Kashipur Mandi", "Rudrapur Mandi"],
-            "West Bengal (पश्चिम बंगाल)": ["Kolkata Mandi", "Siliguri Mandi", "Burdwan Mandi", "Asansol Mandi"]
-        };
-
-        const cropsList = [
-            "आलू (Potato)", "प्याज (Onion)", "टमाटर (Tomato)", "लहसुन (Garlic)", 
-            "अदरक (Ginger)", "हरी मिर्च (Green Chillies)", "गोभी (Cauliflower)", 
-            "बैंगन (Brinjal)", "भिंडी (Lady Finger)", "चना (Gram)", "गेहूं (Wheat)"
-        ];
-
-        const standardBasePrices = {
-            "आलू (Potato)": { min: 15, max: 28 },
-            "प्याज (Onion)": { min: 30, max: 55 },
-            "टमाटर (Tomato)": { min: 20, max: 40 },
-            "लहसुन (Garlic)": { min: 100, max: 180 },
-            "अदरक (Ginger)": { min: 70, max: 130 },
-            "हरी मिर्च (Green Chillies)": { min: 35, max: 65 },
-            "गोभी (Cauliflower)": { min: 25, max: 45 },
-            "बैंगन (Brinjal)": { min: 18, max: 35 },
-            "भिंडी (Lady Finger)": { min: 28, max: 50 },
-            "चना (Gram)": { min: 55, max: 80 },
-            "गेहूं (Wheat)": { min: 24, max: 32 }
-        };
-
-        // IMMEDIATE INITIALIZATION SYSTEM (Replaced window.onload)
-        function initDropdowns() {
-            const stateSelect = document.getElementById("stateSelect");
-            const cropSelect = document.getElementById("cropSelect");
-
-            // Fill State Selection
-            for (let state in agriData) {
-                let opt = document.createElement("option");
-                opt.value = state;
-                opt.text = state; // Safe standard DOM setter
-                stateSelect.appendChild(opt);
-            }
-
-            // Fill Vegetables Selection
-            cropsList.forEach(crop => {
-                let opt = document.createElement("option");
-                opt.value = crop;
-                opt.text = crop;
-                cropSelect.appendChild(opt);
-            });
-        }
-
-        // Run Immediately as soon as script block loads on DOM
-        initDropdowns();
-
-        // Sequential Dependent Mandi Trigger Logic
-        function updateMandis() {
+        // Solid map array dictionary for Mandis fallback injection
+        const staticMandiMap = {
+            "Andhra Pradesh": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi"],
+            "Arunachal Pradesh": ["Pasighat Mandi", "Namsai Mandi"],
+            "Assam": ["Guwahati Mandi", "Jorhat Mandi", "Silchar Mandi"],
+            "Bihar": ["Gulabbagh Mandi", "Muzaffarpur Mandi", "Patna Mandi"],
+            "Chhattisgarh": ["Raipur Mandi", "Durg Mandi", "Bilaspur Mandi"],
+            "Goa": ["Margao Mandi", "Mapusa Mandi"],
+            "Gujarat": ["Gondal Mandi", "Rajkot Mandi", "Surat Mandi"],
+            "Haryana": ["Karnal Mandi", "Ambala Mandi", "Sirsa Mandi"],
+            "Himachal Pradesh": ["Shimla Mandi", "Solan Mandi", "Kullu Mandi"],
+            "Jharkhand": ["Ranchi Mandi", "Jamshedpur Mandi", "Dhanbad Mandi"],
+            "Karnataka": ["Bengaluru Mandi", "Hubli Mandi", "Mysuru Mandi"],
+            "Kerala": ["Kochi Mandi", "Kozhikode Mandi", "Thiruvananthapuram Mandi"],
+            "Madhya Pradesh": ["Indore Mandi", "Bhopal Mandi", "Ujjain Mandi"],
+            "Maharashtra": ["Pune Mandi (पुणे)", "Mumbai Mandi (मुंबई)", "Nashik Mandi (नाशिक)"],
+            "Manipur": ["Imphal Mandi"],
+            "Meghalaya": ["Shillong Mandi"],
+            "Mizoram": ["Aizawl Mandi"],
+            "Nagaland": ["Dimapur Mandi"],
+            "Odisha": ["Bhubaneswar Mandi", "Cuttack Mandi"],
+            "Punjab": ["Khanna Mandi", "Ludhiana Mandi", "Amritsar Mandi"],
+            "Rajasthan": ["Jaipur Mandi", "Jodhpur Mandi", "Kota Mandi"],
+            "Sikkim": ["Gangtok Mandi"],
+            "Tamil Nadu": ["Chennai Mandi", "Coimbatore Mandi", "Madurai Mandi"],
+            "Telangana": ["Warangal Mandi", "Nizamabad Mandi", "Hyderabad Mandi"],
+            "Tripura": ["Agartala Mandi"],
+            "Uttar Pradesh": ["Agra Mandi", "Kanpur Mandi", "Lucknow Mandi"],
+            "Uttarakhand": ["Haldwani Mandi", "Dehradun Mandi"],
