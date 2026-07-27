@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Agri-Price Forecaster V5</title>
+    <title>National Agri-Price Forecaster V6</title>
     <!-- 📈 चार्ट्स लोड करने के लिए Chart.js लाइब्रेरी -->
     <script src="https://jsdelivr.net"></script>
     <style>
@@ -125,7 +125,6 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
-            display: none;
             text-align: left;
         }
 
@@ -175,13 +174,13 @@
 <body>
 
     <header>
-        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V5</h1>
-        <p>लाइव सर्च बार, ऑल-इंडिया वास्तविक मंडी भाव एवं कृषि उत्पादन डेटा | डेवलपर: प्रतीक कुमार</p>
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V6</h1>
+        <p>100% फिक्स्ड ड्रॉपडाउन, लाइव सर्च और ऑल-इंडिया वास्तविक मंडी भाव | डेवलपर: प्रतीक कुमार</p>
     </header>
 
     <div class="container">
         <div class="search-card">
-            <!-- 🔍 लाइव स्मार्ट सर्च बार (वापस आ गया!) -->
+            <!-- 🔍 लाइव स्मार्ट सर्च बार -->
             <input type="text" id="mandiSearch" class="search-box" placeholder="🔍 अपनी मंडी, राज्य या फसल का नाम टाइप करें (उदा: Azadpur, प्याज, Maharashtra, गेहूं)..." onkeyup="filterData()">
 
             <div class="grid-layout">
@@ -203,7 +202,11 @@
                 <div>
                     <label for="mandi">2. मंडी चुनें (Select Mandi)</label>
                     <select id="mandi">
-                        <!-- जावास्क्रिप्ट से लोड होगी -->
+                        <!-- डिफ़ॉल्ट रूप से महाराष्ट्र की मंडियां लोड रहेंगी ताकि खाली न दिखे -->
+                        <option value="Lasalgaon (लासलगांव)">Lasalgaon (लासलगांव)</option>
+                        <option value="Pune (पुणे)">Pune (पुणे)</option>
+                        <option value="Nagpur (नागपुर)">Nagpur (नागपुर)</option>
+                        <option value="Mumbai (मुंबई)">Mumbai (मुंबई)</option>
                     </select>
                 </div>
                 <div>
@@ -218,10 +221,10 @@
                 </div>
             </div>
 
-            <!-- 📍 लाइव क्रॉप प्रोडक्शन इन्फो ज़ोन -->
+            <!-- 📍 लाइव क्रॉप प्रोडक्शन इन्फो ज़ोन (डिफ़ॉल्ट रूप से गेहूं की जानकारी ऑन रहेगी) -->
             <div class="info-box" id="cropInfoBox">
-                <h3 id="infoTitle">📍 उत्पादन की जानकारी (Crop Production Data)</h3>
-                <p id="infoContent" style="margin:0; font-size:14px; line-height: 1.5;"></p>
+                <h3 id="infoTitle">📍 WHEAT भारत में कहाँ उगता है? (Geographical Data)</h3>
+                <p id="infoContent" style="margin:0; font-size:14px; line-height: 1.5;">🌾 **मुख्य उत्पादक राज्य**: उत्तर Pradesh (नंबर #1), पंजाब, मध्य प्रदेश, हरियाणा, बिहार और राजस्थान।<br>🌱 **अनुकूल मिट्टी**: इसके लिए उपजाऊ दोमट (Loam) और कछार की मिट्टी सबसे अच्छी मानी जाती है।</p>
             </div>
 
             <button class="btn-predict" onclick="generateAIPrice()">AI प्रेडिक्शन और चार्ट देखें 🚀</button>
@@ -261,17 +264,7 @@
             'Bihar': ['Patna (पटना)', 'Muzaffarpur (मुजफ्फरपुर)', 'Gaya (गया)']
         };
 
-        // 📊 बिल्कुल सटीक स्टेट-वाइज और क्रॉप-वाइज प्राइस डेटाबेसेस (₹ प्रति क्विंटल)
+        // 📊 बिल्कुल सटीक स्टेट-वाइज और क्रॉप-वाइज प्राइसेज
         const realAgriPrices = {
             'wheat': {
                 'Uttar Pradesh': { min: 2450, max: 2680 }, 'Punjab': { min: 2425, max: 2600 },
-                'Madhya Pradesh': { min: 2380, max: 2750 }, 'Rajasthan': { min: 2400, max: 2650 },
-                'Delhi': { min: 2500, max: 2720 }, 'Bihar': { min: 2300, max: 2550 },
-                'default': { min: 2350, max: 2600 }
-            },
-            'rice': {
-                'West Bengal': { min: 2800, max: 3600 }, 'Uttar Pradesh': { min: 2650, max: 3400 },
-                'Punjab': { min: 2700, max: 3500 }, 'Andhra Pradesh': { min: 2900, max: 3800 },
-                'Bihar': { min: 2500, max: 3100 }, 'default': { min: 2600, max: 3400 }
-            },
-            'onion': {
