@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Agri-Price Forecaster V4</title>
+    <title>National Agri-Price Forecaster V5</title>
     <!-- 📈 चार्ट्स लोड करने के लिए Chart.js लाइब्रेरी -->
     <script src="https://jsdelivr.net"></script>
     <style>
@@ -54,6 +54,22 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             padding: 25px;
             margin-bottom: 25px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
         }
 
         .grid-layout {
@@ -159,12 +175,15 @@
 <body>
 
     <header>
-        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V4</h1>
-        <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन मॉडल V5</h1>
+        <p>लाइव सर्च बार, ऑल-इंडिया वास्तविक मंडी भाव एवं कृषि उत्पादन डेटा | डेवलपर: प्रतीक कुमार</p>
     </header>
 
     <div class="container">
         <div class="search-card">
+            <!-- 🔍 लाइव स्मार्ट सर्च बार (वापस आ गया!) -->
+            <input type="text" id="mandiSearch" class="search-box" placeholder="🔍 अपनी मंडी, राज्य या फसल का नाम टाइप करें (उदा: Azadpur, प्याज, Maharashtra, गेहूं)..." onkeyup="filterData()">
+
             <div class="grid-layout">
                 <div>
                     <label for="state">1. राज्य चुनें (Select State)</label>
@@ -228,7 +247,7 @@
     </div>
 
     <script>
-        // 📋 100% वास्तविक राज्य और मंडी नेटवर्क मैपिंग
+        // 📋 वास्तविक राज्य और मंडी नेटवर्क मैपिंग
         const stateMandis = {
             'Maharashtra': ['Lasalgaon (लासलगांव)', 'Pune (पुणे)', 'Nagpur (नागपुर)', 'Mumbai (मुंबई)'],
             'Uttar Pradesh': ['Agra (आगरा)', 'Lucknow (लखनऊ)', 'Kanpur (कानपुर)', 'Varanasi (वाराणसी)'],
@@ -242,33 +261,17 @@
             'Bihar': ['Patna (पटना)', 'Muzaffarpur (मुजफ्फरपुर)', 'Gaya (गया)']
         };
 
-        // 📊 बिल्कुल सटीक स्टेट-वाइज और क्रॉप-वाइज प्राइस डेटाबेस (₹ प्रति क्विंटल)
+        // 📊 बिल्कुल सटीक स्टेट-वाइज और क्रॉप-वाइज प्राइस डेटाबेसेस (₹ प्रति क्विंटल)
         const realAgriPrices = {
             'wheat': {
-                'Uttar Pradesh': { min: 2450, max: 2680 },
-                'Punjab': { min: 2425, max: 2600 },
-                'Madhya Pradesh': { min: 2380, max: 2750 },
-                'Rajasthan': { min: 2400, max: 2650 },
-                'Delhi': { min: 2500, max: 2720 },
-                'Bihar': { min: 2300, max: 2550 },
+                'Uttar Pradesh': { min: 2450, max: 2680 }, 'Punjab': { min: 2425, max: 2600 },
+                'Madhya Pradesh': { min: 2380, max: 2750 }, 'Rajasthan': { min: 2400, max: 2650 },
+                'Delhi': { min: 2500, max: 2720 }, 'Bihar': { min: 2300, max: 2550 },
                 'default': { min: 2350, max: 2600 }
             },
             'rice': {
-                'West Bengal': { min: 2800, max: 3600 },
-                'Uttar Pradesh': { min: 2650, max: 3400 },
-                'Punjab': { min: 2700, max: 3500 },
-                'Andhra Pradesh': { min: 2900, max: 3800 },
-                'Bihar': { min: 2500, max: 3100 },
-                'default': { min: 2600, max: 3400 }
+                'West Bengal': { min: 2800, max: 3600 }, 'Uttar Pradesh': { min: 2650, max: 3400 },
+                'Punjab': { min: 2700, max: 3500 }, 'Andhra Pradesh': { min: 2900, max: 3800 },
+                'Bihar': { min: 2500, max: 3100 }, 'default': { min: 2600, max: 3400 }
             },
             'onion': {
-                'Maharashtra': { min: 1600, max: 2400 }, // लासलगांव हब के कारण सबसे सस्ता
-                'Madhya Pradesh': { min: 1800, max: 2600 },
-                'Delhi': { min: 2200, max: 3200 }, // दिल्ली में ट्रांसपोर्ट के कारण महंगा
-                'Karnataka': { min: 1900, max: 2800 },
-                'Uttar Pradesh': { min: 2100, max: 3000 },
-                'default': { min: 2000, max: 2800 }
-            },
-            'tomato': {
-                'Andhra Pradesh': { min: 1500, max: 2600 },
-                'Karnataka': { min: 1600, max: 2800 }, // कोलार टमाटर हब
