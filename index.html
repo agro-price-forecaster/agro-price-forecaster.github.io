@@ -82,9 +82,8 @@
         .btn:hover {
             background-color: #1b5e20;
         }
-        /* Live Dynamic Output Card Styling */
         .result-card {
-            display: none; /* Hidden on load */
+            display: none;
             background: #e8f5e9;
             border-left: 6px solid #2e7d32;
             padding: 18px;
@@ -125,7 +124,7 @@
     </div>
 
     <div class="container">
-        <!-- 1. State Input -->
+        <!-- 1. State Selector -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
             <select id="stateSelect" onchange="updateMandis()">
@@ -133,7 +132,7 @@
             </select>
         </div>
 
-        <!-- 2. Mandi Input -->
+        <!-- 2. Mandi Selector -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
@@ -141,7 +140,7 @@
             </select>
         </div>
 
-        <!-- 3. Vegetable Input -->
+        <!-- 3. Vegetable Selector -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
@@ -149,12 +148,12 @@
             </select>
         </div>
 
-        <!-- Search Action Button -->
+        <!-- Submit Button -->
         <button class="btn" onclick="searchMandiPrices()">
             AI प्रेडिक्शन और चार्ट देखें 🚀
         </button>
 
-        <!-- Dynamic Output Container -->
+        <!-- Result Box Dashboard Display -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min Price):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
@@ -164,7 +163,7 @@
     </div>
 
     <script>
-        // Complete Database: Mapped 28 States directly with authentic primary Mandis
+        // Data Arrays mapping full 28 States & specific Mandis
         const agriData = {
             "Andhra Pradesh (आंध्र प्रदेश)": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi", "Adoni Mandi"],
             "Arunachal Pradesh (अरुणाचल प्रदेश)": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
@@ -196,14 +195,12 @@
             "West Bengal (पश्चिम बंगाल)": ["Kolkata Mandi", "Siliguri Mandi", "Burdwan Mandi", "Asansol Mandi"]
         };
 
-        // Master dynamic list of items/crops for element 3
         const cropsList = [
             "आलू (Potato)", "प्याज (Onion)", "टमाटर (Tomato)", "लहसुन (Garlic)", 
             "अदरक (Ginger)", "हरी मिर्च (Green Chillies)", "गोभी (Cauliflower)", 
             "बैंगन (Brinjal)", "भिंडी (Lady Finger)", "चना (Gram)", "गेहूं (Wheat)"
         ];
 
-        // Realistic Base Price Index mapping database per standard Agmarknet data
         const standardBasePrices = {
             "आलू (Potato)": { min: 15, max: 28 },
             "प्याज (Onion)": { min: 30, max: 55 },
@@ -218,25 +215,30 @@
             "गेहूं (Wheat)": { min: 24, max: 32 }
         };
 
-        // Initial setup on page load
-        window.onload = function() {
+        // IMMEDIATE INITIALIZATION SYSTEM (Replaced window.onload)
+        function initDropdowns() {
             const stateSelect = document.getElementById("stateSelect");
             const cropSelect = document.getElementById("cropSelect");
 
-            // Fill State Selector
+            // Fill State Selection
             for (let state in agriData) {
                 let opt = document.createElement("option");
                 opt.value = state;
-                opt.innerText = state;
+                opt.text = state; // Safe standard DOM setter
                 stateSelect.appendChild(opt);
             }
 
-            // Fill Crop/Vegetable Selector
+            // Fill Vegetables Selection
             cropsList.forEach(crop => {
                 let opt = document.createElement("option");
                 opt.value = crop;
-                opt.innerText = crop;
+                opt.text = crop;
                 cropSelect.appendChild(opt);
             });
-        };
+        }
 
+        // Run Immediately as soon as script block loads on DOM
+        initDropdowns();
+
+        // Sequential Dependent Mandi Trigger Logic
+        function updateMandis() {
