@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Search Console Code -->
+    <!-- Google Search Console Code - NEVER REMOVE THIS -->
     <meta name="google-site-verification" content="6uzIQMyrIKcJh9DjMZfX1CejlnS8kR0oX2MQozq9k6g" />
     <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
     <style>
@@ -32,11 +32,11 @@
     </div>
     <div class="container">
         
-        <!-- 1. Pure 28 States Hardcoded Dropdown -->
+        <!-- 1. State Input Element -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
-            <select id="stateSelect" onchange="updateMandiDropdown()">
-                <option value="">--राज्य चुनें / Select State--</option>
+            <select id="stateSelect">
+                <option value="Select State">--राज्य चुनें / Select State--</option>
                 <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh (अरुणाचल प्रदेश)</option>
                 <option value="Assam">Assam (असम)</option>
@@ -68,15 +68,50 @@
             </select>
         </div>
 
-        <!-- 2. Dynamic Mandi Dropdown Loader -->
+        <!-- 2. Pure Hardcoded Mandi Group System (No JS Mismatch Possible) -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
-                <option value="">--पहले राज्य चुनें / Select State First--</option>
+                <option value="">--मंडी चुनें / Select Mandi--</option>
+                <optgroup label="Andhra Pradesh (आंध्र प्रदेश)">
+                    <option value="Guntur Mandi">Guntur Mandi</option>
+                    <option value="Kurnool Mandi">Kurnool Mandi</option>
+                </optgroup>
+                <optgroup label="Maharashtra (महाराष्ट्र)">
+                    <option value="Mumbai Vashi Mandi">Mumbai Vashi Mandi</option>
+                    <option value="Pune Gultekdi Mandi">Pune Gultekdi Mandi</option>
+                </optgroup>
+                <optgroup label="Uttar Pradesh (उत्तर प्रदेश)">
+                    <option value="Azadpur Mandi Link">Azadpur Mandi Link</option>
+                    <option value="Lucknow Dubagga Mandi">Lucknow Dubagga Mandi</option>
+                </optgroup>
+                <optgroup label="Madhya Pradesh (मध्य प्रदेश)">
+                    <option value="Indore Choithram Mandi">Indore Choithram Mandi</option>
+                    <option value="Bhopal Karond Mandi">Bhopal Karond Mandi</option>
+                </optgroup>
+                <optgroup label="Punjab (पंजाब)">
+                    <option value="Ludhiana Mandi">Ludhiana Mandi</option>
+                    <option value="Khanna Mandi">Khanna Mandi</option>
+                </optgroup>
+                <optgroup label="Bihar (बिहार)">
+                    <option value="Gulabbagh Mandi">Gulabbagh Mandi</option>
+                    <option value="Patna Mandi">Patna Mandi</option>
+                </optgroup>
+                <optgroup label="Rajasthan (राजस्थान)">
+                    <option value="Jaipur Muhana Mandi">Jaipur Muhana Mandi</option>
+                    <option value="Kota Mandi">Kota Mandi</option>
+                </optgroup>
+                <optgroup label="Gujarat (गुजरात)">
+                    <option value="Ahmedabad Mandi">Ahmedabad Mandi</option>
+                    <option value="Gondal Mandi">Gondal Mandi</option>
+                </optgroup>
+                <optgroup label="West Bengal (पश्चिम बंगाल)">
+                    <option value="Kolkata Koley Market">Kolkata Koley Market</option>
+                </optgroup>
             </select>
         </div>
 
-        <!-- 3. Complete 30 Vegetables and Crop Menu -->
+        <!-- 3. Complete 30 Vegetables Menu -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
@@ -95,7 +130,7 @@
                 <option value="Radish">12. मूली (Radish)</option>
                 <option value="Spinach">13. पालक (Spinach)</option>
                 <option value="Green Peas">14. मटर (Green Peas)</option>
-                <option value="Cucumber">15. खीra (Cucumber)</option>
+                <option value="Cucumber">15. खीरा (Cucumber)</option>
                 <option value="Pumpkin">16. कद्दू (Pumpkin)</option>
                 <option value="Capsicum">17. शिमला मिर्च (Capsicum)</option>
                 <option value="Coriander">18. हरा धनिया (Coriander)</option>
@@ -116,38 +151,7 @@
 
         <button class="btn" onclick="searchLivePrices()">AI प्रेडिक्शन देखें 🚀</button>
 
-        <!-- Search Results Dashboard -->
+        <!-- Dynamic Results Screen -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
-            <div class="price-row"><span>अधिकतम भाव (Max):</span> <span class="price-val" id="maxPrice">₹0 /kg</span></div>
-            <div class="price-row"><span>औसत भाव (Modal):</span> <span class="price-val" id="avgPrice">₹0 /kg</span></div>
-        </div>
-    </div>
-
-    <script>
-        // Real database array mapping 28 States with their active primary Sabzi Mandis
-        const mandiData = {
-            "Andhra Pradesh": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi"],
-            "Arunachal Pradesh": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
-            "Assam": ["Guwahati Mandi", "Jorhat Mandi", "Silchar Mandi"],
-            "Bihar": ["Gulabbagh Mandi", "Patna Mandi", "Muzaffarpur Mandi"],
-            "Chhattisgarh": ["Raipur Mandi", "Durg Mandi", "Bilaspur Mandi"],
-            "Goa": ["Panaji Mandi", "Margao Mandi", "Mapusa Mandi"],
-            "Gujarat": ["Ahmedabad Mandi", "Gondal Mandi", "Surat Mandi"],
-            "Haryana": ["Karnal Mandi", "Ambala Mandi", "Gurugram Mandi"],
-            "Himachal Pradesh": ["Shimla Mandi", "Solan Mandi", "Kullu Mandi"],
-            "Jharkhand": ["Ranchi Mandi", "Jamshedpur Mandi", "Dhanbad Mandi"],
-            "Karnataka": ["Bengaluru Mandi", "Hubli Mandi", "Mysuru Mandi"],
-            "Kerala": ["Kochi Mandi", "Kozhikode Mandi", "Thiruvananthapuram Mandi"],
-            "Madhya Pradesh": ["Indore Choithram Mandi", "Bhopal Karond Mandi", "Ujjain Mandi"],
-            "Maharashtra": ["Mumbai Vashi Mandi", "Pune Gultekdi Mandi", "Nashik Mandi"],
-            "Manipur": ["Imphal Mandi", "Thoubal Mandi"],
-            "Meghalaya": ["Shillong Mandi", "Tura Mandi"],
-            "Mizoram": ["Aizawl Mandi", "Lunglei Mandi"],
-            "Nagaland": ["Dimapur Mandi", "Kohima Market"],
-            "Odisha": ["Bhubaneswar Mandi", "Cuttack Market", "Sambalpur Mandi"],
-            "Punjab": ["Ludhiana Mandi", "Khanna Mandi", "Amritsar Mandi"],
-            "Rajasthan": ["Jaipur Muhana Mandi", "Jodhpur Mandi", "Kota Mandi"],
-            "Sikkim": ["Gangtok Lal Bazaar", "Namchi Market"],
-            "Tamil Nadu": ["Chennai Koyambedu Mandi", "Coimbatore Market", "Madurai Mandi"],
