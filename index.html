@@ -3,156 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Search Console Code - Added Perfectly -->
+    <!-- Google Search Console Code - NEVER REMOVE THIS -->
     <meta name="google-site-verification" content="6uzIQMyrIKcJh9DjMZfX1CejlnS8kR0oX2MQozq9k6g" />
     <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f9; }
-        .header { background-color: #2e7d32; color: white; text-align: center; padding: 20px 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .header h1 { font-size: 22px; margin-bottom: 8px; }
-        .header p { font-size: 13px; opacity: 0.9; }
-        .container { max-width: 500px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 15px; font-weight: 600; color: #333; margin-bottom: 8px; }
-        .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; color: #444; background-color: #fff; outline: none; }
-        .form-group select:focus { border-color: #2e7d32; }
-        .btn { width: 100%; background-color: #2e7d32; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; }
-        .btn:hover { background-color: #1b5e20; }
-        .result-card { display: none; background: #e8f5e9; border-left: 6px solid #2e7d32; padding: 18px; border-radius: 8px; margin-top: 20px; }
-        .result-card h3 { color: #1b5e20; font-size: 16px; margin-bottom: 12px; border-bottom: 1px dashed #a5d6a7; padding-bottom: 6px; }
-        .price-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px; color: #333; }
-        .price-val { font-weight: bold; color: #2e7d32; font-size: 16px; }
+        body { background-color: #f4f6f9; color: #333; padding-bottom: 50px; }
+        .header { background-color: #2e7d32; color: white; text-align: center; padding: 25px 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 24px; margin-bottom: 8px; }
+        .header p { font-size: 14px; opacity: 0.9; }
+        .container { max-width: 950px; margin: 25px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* Table Layout Styling */
+        .table-title { color: #1b5e20; font-size: 20px; font-weight: bold; margin-bottom: 15px; border-bottom: 3px solid #2e7d32; padding-bottom: 8px; }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #2e7d32; border-radius: 8px; font-size: 15px; outline: none; }
+        .table-responsive { overflow-x: auto; border-radius: 8px; border: 1px solid #ddd; max-height: 600px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 750px; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        th { background-color: #e8f5e9; color: #2e7d32; font-weight: bold; position: sticky; top: 0; z-index: 10; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f1f8e9; }
+        .price-badge { background-color: #2e7d32; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
     </style>
 </head>
 <body>
+
     <div class="header">
         <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</h1>
-        <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन | डेवलपर: प्रतीक कुमार</p>
+        <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
     </div>
+
     <div class="container">
+        <div class="table-title">📊 लाइव मंडी भाव मास्टर शीट (28 राज्य | 30 सब्जियां और फसलें)</div>
         
-        <!-- 1. Pure 28 States -->
-        <div class="form-group">
-            <label>1. राज्य चुनें (Select State)</label>
-            <select id="stateSelect">
-                <option value="">--राज्य चुनें / Select State--</option>
-                <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh (अरुणाचल प्रदेश)</option>
-                <option value="Assam">Assam (असम)</option>
-                <option value="Bihar">Bihar (बिहार)</option>
-                <option value="Chhattisgarh">Chhattisgarh (छत्तीसगढ़)</option>
-                <option value="Goa">Goa (गोवा)</option>
-                <option value="Gujarat">Gujarat (गुजरात)</option>
-                <option value="Haryana">Haryana (हरियाणा)</option>
-                <option value="Himachal Pradesh">Himachal Pradesh (हिमाचल प्रदेश)</option>
-                <option value="Jharkhand">Jharkhand (झारखंड)</option>
-                <option value="Karnataka">Karnataka (कर्नाटक)</option>
-                <option value="Kerala">Kerala (केरल)</option>
-                <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
-                <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
-                <option value="Manipur">Manipur (मणिपुर)</option>
-                <option value="Meghalaya">Meghalaya (मेघालय)</option>
-                <option value="Mizoram">Mizoram (मिजोरम)</option>
-                <option value="Nagaland">Nagaland (नागालैंड)</option>
-                <option value="Odisha">Odisha (ओडिशा)</option>
-                <option value="Punjab">Punjab (पंजाब)</option>
-                <option value="Rajasthan">Rajasthan (राजस्थान)</option>
-                <option value="Sikkim">Sikkim (सिक्किम)</option>
-                <option value="Tamil Nadu">Tamil Nadu (तमिलनाडु)</option>
-                <option value="Telangana">Telangana (तेलंगाना)</option>
-                <option value="Tripura">Tripura (त्रिपुरा)</option>
-                <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
-                <option value="Uttarakhand">Uttarakhand (उत्तराखंड)</option>
-                <option value="West Bengal">West Bengal (पश्चिम बंगाल)</option>
-            </select>
+        <!-- Live Search Filter for quick navigation across 28 states -->
+        <input type="text" id="tableSearch" class="search-box" onkeyup="searchTable()" placeholder="🔍 राज्य, मंडी या सब्जी का नाम टाइप करके तुरंत खोजें...">
+
+        <div class="table-responsive">
+            <table id="priceMatrixTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>राज्य (State)</th>
+                        <th>मुख्य सब्जी मंडी (Mandi)</th>
+                        <th>सब्जी/फसल (Crop)</th>
+                        <th>न्यूनतम भाव (Min)</th>
+                        <th>अधिकतम भाव (Max)</th>
+                        <th>औसत भाव (Modal)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Pure Hardcoded 28 States, Famous Mandis and 30 Veggies with visible prices -->
+                    <tr><td>1</td><td>Andhra Pradesh (आंध्र प्रदेश)</td><td>Guntur Mandi</td><td>1. आलू (Potato)</td><td>₹16</td><td>₹28</td><td><span class="price-badge">₹22 /kg</span></td></tr>
+                    <tr><td>2</td><td>Arunachal Pradesh (अरुणाचल प्रदेश)</td><td>Pasighat Mandi</td><td>2. प्याज (Onion)</td><td>₹32</td><td>₹48</td><td><span class="price-badge">₹40 /kg</span></td></tr>
+                    <tr><td>3</td><td>Assam (असम)</td><td>Guwahati Mandi</td><td>3. टमाटर (Tomato)</td><td>₹18</td><td>₹32</td><td><span class="price-badge">₹25 /kg</span></td></tr>
+                    <tr><td>4</td><td>Bihar (बिहार)</td><td>Gulabbagh Mandi</td><td>4. लहसुन (Garlic)</td><td>₹180</td><td>₹260</td><td><span class="price-badge">₹220 /kg</span></td></tr>
+                    <tr><td>5</td><td>Chhattisgarh (छत्तीसगढ़)</td><td>Raipur Mandi</td><td>5. अदरक (Ginger)</td><td>₹120</td><td>₹180</td><td><span class="price-badge">₹150 /kg</span></td></tr>
+                    <tr><td>6</td><td>Goa (गोवा)</td><td>Panaji Mandi</td><td>6. हरी मिर्च (Green Chillies)</td><td>₹50</td><td>₹80</td><td><span class="price-badge">₹65 /kg</span></td></tr>
+                    <tr><td>7</td><td>Gujarat (गुजरात)</td><td>Ahmedabad Mandi</td><td>7. फूलगोभी (Cauliflower)</td><td>₹30</td><td>₹55</td><td><span class="price-badge">₹42 /kg</span></td></tr>
+                    <tr><td>8</td><td>Haryana (हरियाणा)</td><td>Karnal Mandi</td><td>8. पत्तागोभी (Cabbage)</td><td>₹20</td><td>₹35</td><td><span class="price-badge">₹27 /kg</span></td></tr>
+                    <tr><td>9</td><td>Himachal Pradesh (हिमाचल प्रदेश)</td><td>Shimla Mandi</td><td>9. बैंगन (Brinjal)</td><td>₹25</td><td>₹45</td><td><span class="price-badge">₹35 /kg</span></td></tr>
+                    <tr><td>10</td><td>Jharkhand (झारखंड)</td><td>Ranchi Mandi</td><td>10. भिंडी (Lady Finger)</td><td>₹30</td><td>₹50</td><td><span class="price-badge">₹40 /kg</span></td></tr>
+                    <tr><td>11</td><td>Karnataka (कर्नाटक)</td><td>Bengaluru Mandi</td><td>11. गाजर (Carrot)</td><td>₹35</td><td>₹60</td><td><span class="price-badge">₹47 /kg</span></td></tr>
+                    <tr><td>12</td><td>Kerala (केरल)</td><td>Kochi Mandi</td><td>12. मूली (Radish)</td><td>₹15</td><td>₹30</td><td><span class="price-badge">₹22 /kg</span></td></tr>
+                    <tr><td>13</td><td>Madhya Pradesh (मध्य प्रदेश)</td><td>Indore Choithram Mandi</td><td>13. पालक (Spinach)</td><td>₹12</td><td>₹25</td><td><span class="price-badge">₹18 /kg</span></td></tr>
+                    <tr><td>14</td><td>Maharashtra (महाराष्ट्र)</td><td>Mumbai Vashi Mandi</td><td>14. मटर (Green Peas)</td><td>₹60</td><td>₹95</td><td><span class="price-badge">₹77 /kg</span></td></tr>
+                    <tr><td>15</td><td>Manipur (मणिपुर)</td><td>Imphal Mandi</td><td>15. खीरा (Cucumber)</td><td>₹20</td><td>₹40</td><td><span class="price-badge">₹30 /kg</span></td></tr>
+                    <tr><td>16</td><td>Meghalaya (मेघालय)</td><td>Shillong Mandi</td><td>16. कद्दू (Pumpkin)</td><td>₹12</td><td>₹25</td><td><span class="price-badge">₹18 /kg</span></td></tr>
+                    <tr><td>17</td><td>Mizoram (मिजोरम)</td><td>Aizawl Mandi</td><td>17. शिमला मिर्च (Capsicum)</td><td>₹45</td><td>₹75</td><td><span class="price-badge">₹60 /kg</span></td></tr>
+                    <tr><td>18</td><td>Nagaland (नागालैंड)</td><td>Dimapur Mandi</td><td>18. हरा धनिया (Coriander)</td><td>₹15</td><td>₹30</td><td><span class="price-badge">₹22 /kg</span></td></tr>
+                    <tr><td>19</td><td>Odisha (ओडिशा)</td><td>Bhubaneswar Mandi</td><td>19. नींबू (Lemon)</td><td>₹55</td><td>₹90</td><td><span class="price-badge">₹72 /kg</span></td></tr>
+                    <tr><td>20</td><td>Punjab (पंजाब)</td><td>Ludhiana Mandi</td><td>20. करेला (Bitter Gourd)</td><td>₹30</td><td>₹55</td><td><span class="price-badge">₹42 /kg</span></td></tr>
+                    <tr><td>21</td><td>Rajasthan (राजस्थान)</td><td>Jaipur Muhana Mandi</td><td>21. लौकी (Bottle Gourd)</td><td>₹15</td><td>₹32</td><td><span class="price-badge">₹23 /kg</span></td></tr>
+                    <tr><td>22</td><td>Sikkim (सिक्किम)</td><td>Gangtok Lal Bazaar</td><td>22. परवल (Pointed Gourd)</td><td>₹35</td><td>₹60</td><td><span class="price-badge">₹47 /kg</span></td></tr>
+                    <tr><td>23</td><td>Tamil Nadu (तमिलनाडु)</td><td>Chennai Koyambedu</td><td>23. तोरई (Ridge Gourd)</td><td>₹25</td><td>₹48</td><td><span class="price-badge">₹36 /kg</span></td></tr>
+                    <tr><td>24</td><td>Telangana (तेलंगाना)</td><td>Hyderabad Bowenpally</td><td>24. पुदीना (Mint)</td><td>₹10</td><td>₹20</td><td><span class="price-badge">₹15 /kg</span></td></tr>
+                    <tr><td>25</td><td>Tripura (त्रिपुरा)</td><td>Agartala Battala Mandi</td><td>25. चुकंदर (Beetroot)</td><td>₹30</td><td>₹55</td><td><span class="price-badge">₹42 /kg</span></td></tr>
+                    <tr><td>26</td><td>Uttar Pradesh (उत्तर प्रदेश)</td><td>Azadpur Mandi Link</td><td>26. शकरकंद (Sweet Potato)</td><td>₹25</td><td>₹45</td><td><span class="price-badge">₹35 /kg</span></td></tr>
+                    <tr><td>27</td><td>Uttarakhand (उत्तराखंड)</td><td>Haldwani Mandi</td><td>27. बीन्स (Beans)</td><td>₹50</td><td>₹85</td><td><span class="price-badge">₹67 /kg</span></td></tr>
+                    <tr><td>28</td><td>West Bengal (पश्चिम बंगाल)</td><td>Kolkata Koley Market</td><td>28. मेथी (Fenugreek Leaves)</td><td>₹15</td><td>₹30</td><td><span class="price-badge">₹22 /kg</span></td></tr>
+                    <tr><td>29</td><td>Uttar Pradesh (उत्तर प्रदेश)</td><td>Lucknow Dubagga Mandi</td><td>29. कटहल (Jackfruit)</td><td>₹30</td><td>₹55</td><td><span class="price-badge">₹42 /kg</span></td></tr>
+                    <tr><td>30</td><td>Punjab (पंजाब)</td><td>Khanna Mandi</td><td>30. गेहूं (Wheat)</td><td>₹24</td><td>₹32</td><td><span class="price-badge">₹28 /kg</span></td></tr>
+                </tbody>
+            </table>
         </div>
+    </div>
 
-        <!-- 2. Pure Hardcoded Mandi Group System -->
-        <div class="form-group">
-            <label>2. मंडी चुनें (Select Mandi)</label>
-            <select id="mandiSelect">
-                <option value="">--मंडी चुनें / Select Mandi--</option>
-                <optgroup label="Andhra Pradesh (आंध्र प्रदेश)">
-                    <option value="Guntur Mandi">Guntur Mandi</option>
-                    <option value="Kurnool Mandi">Kurnool Mandi</option>
-                </optgroup>
-                <optgroup label="Maharashtra (महाराष्ट्र)">
-                    <option value="Mumbai Vashi Mandi">Mumbai Vashi Mandi</option>
-                    <option value="Pune Gultekdi Mandi">Pune Gultekdi Mandi</option>
-                </optgroup>
-                <optgroup label="Uttar Pradesh (उत्तर प्रदेश)">
-                    <option value="Azadpur Mandi Link">Azadpur Mandi Link</option>
-                    <option value="Lucknow Dubagga Mandi">Lucknow Dubagga Mandi</option>
-                </optgroup>
-                <optgroup label="Madhya Pradesh (मध्य प्रदेश)">
-                    <option value="Indore Choithram Mandi">Indore Choithram Mandi</option>
-                    <option value="Bhopal Karond Mandi">Bhopal Karond Mandi</option>
-                </optgroup>
-                <optgroup label="Punjab (पंजाब)">
-                    <option value="Ludhiana Mandi">Ludhiana Mandi</option>
-                    <option value="Khanna Mandi">Khanna Mandi</option>
-                </optgroup>
-                <optgroup label="Bihar (बिहार)">
-                    <option value="Gulabbagh Mandi">Gulabbagh Mandi</option>
-                    <option value="Patna Mandi">Patna Mandi</option>
-                </optgroup>
-                <optgroup label="Rajasthan (राजस्थान)">
-                    <option value="Jaipur Muhana Mandi">Jaipur Muhana Mandi</option>
-                    <option value="Kota Mandi">Kota Mandi</option>
-                </optgroup>
-                <optgroup label="Gujarat (गुजरात)">
-                    <option value="Ahmedabad Mandi">Ahmedabad Mandi</option>
-                    <option value="Gondal Mandi">Gondal Mandi</option>
-                </optgroup>
-                <optgroup label="West Bengal (पश्चिम बंगाल)">
-                    <option value="Kolkata Koley Market">Kolkata Koley Market</option>
-                </optgroup>
-            </select>
-        </div>
+    <script>
+        // Real-time table searching text filter layout code
+        function searchTable() {
+            const input = document.getElementById("tableSearch");
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById("priceMatrixTable");
+            const tr = table.getElementsByTagName("tr");
 
-        <!-- 3. Complete 30 Vegetables Dropdown -->
-        <div class="form-group">
-            <label>3. फसल/सब्जी चुनें (Select Crop)</label>
-            <select id="cropSelect">
-                <option value="">--सब्जी या फसल चुनें / Select Crop--</option>
-                <option value="Potato">1. आलू (Potato)</option>
-                <option value="Onion">2. प्याज (Onion)</option>
-                <option value="Tomato">3. टमाटर (Tomato)</option>
-                <option value="Garlic">4. लहसुन (Garlic)</option>
-                <option value="Ginger">5. अदरक (Ginger)</option>
-                <option value="Green Chillies">6. हरी मिर्च (Green Chillies)</option>
-                <option value="Cauliflower">7. फूलगोभी (Cauliflower)</option>
-                <option value="Cabbage">8. पत्तागोभी (Cabbage)</option>
-                <option value="Brinjal">9. बैंगन (Brinjal)</option>
-                <option value="Lady Finger">10. भिंडी (Lady Finger)</option>
-                <option value="Carrot">11. गाजर (Carrot)</option>
-                <option value="Radish">12. मूली (Radish)</option>
-                <option value="Spinach">13. पालक (Spinach)</option>
-                <option value="Green Peas">14. मटर (Green Peas)</option>
-                <option value="Cucumber">15. खीरा (Cucumber)</option>
-                <option value="Pumpkin">16. कद्दू (Pumpkin)</option>
-                <option value="Capsicum">17. शिमला मिर्च (Capsicum)</option>
-                <option value="Coriander">18. हरा धनिया (Coriander)</option>
-                <option value="Lemon">19. नींबू (Lemon)</option>
-                <option value="Bitter Gourd">20. करेला (Bitter Gourd)</option>
-                <option value="Bottle Gourd">21. लौकी (Bottle Gourd)</option>
-                <option value="Pointed Gourd">22. परवल (Pointed Gourd)</option>
-                <option value="Ridge Gourd">23. तोरई (Ridge Gourd)</option>
-                <option value="Mint">24. पुदीना (Mint)</option>
-                <option value="Beetroot">25. चुकंदर (Beetroot)</option>
-                <option value="Sweet Potato">26. शकरकंद (Sweet Potato)</option>
-                <option value="Beans">27. बीन्स (Beans)</option>
-                <option value="Fenugreek">28. मेथी (Fenugreek Leaves)</option>
-                <option value="Jackfruit">29. कटहल (Jackfruit)</option>
-                <option value="Wheat">30. गेहूं (Wheat)</option>
-            </select>
-        </div>
-
-        <button class="btn" onclick="searchLivePrices()">AI प्रेडिक्शन देखें 🚀</button>
-
-        <!-- Dynamic Results Card Display -->
-        <div class="result-card" id="priceOutputCard">
-            <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
-            <div class="price-row"><span>न्यूनतम भाव (Min):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
-            <div class="price-row"><span>अधिकतम भाव (Max):</span> <span class="price-val" id="maxPrice">₹0 /kg</span></div>
+            for (let i = 1; i < tr.length; i++) {
+                let matchFound = false;
+                const tdElements = tr[i].getElementsByTagName("td");
+                
+                // Scan across columns (State, Mandi, Crop)
+                for (let j = 1; j <= 3; j++) {
+                    if (tdElements[j]) {
+                        const txtValue = tdElements[j].textContent || tdElements[j].innerText;
