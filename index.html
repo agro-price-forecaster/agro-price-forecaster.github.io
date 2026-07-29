@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Search Console Code - NEVER REMOVE THIS -->
+    <!-- Google Search Console Code - Added Perfectly -->
     <meta name="google-site-verification" content="6uzIQMyrIKcJh9DjMZfX1CejlnS8kR0oX2MQozq9k6g" />
     <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
     <style>
@@ -32,7 +32,7 @@
     </div>
     <div class="container">
         
-        <!-- 1. Pure 28 States -->
+        <!-- 1. Pure 28 States Hardcoded Dropdown -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
             <select id="stateSelect" onchange="updateMandiDropdown()">
@@ -68,7 +68,7 @@
             </select>
         </div>
 
-        <!-- 2. Dynamic Mandi Selector -->
+        <!-- 2. Dynamic Mandi Dropdown Loader -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
@@ -76,7 +76,7 @@
             </select>
         </div>
 
-        <!-- 3. Pure 30 Vegetables / Crops Dropdown -->
+        <!-- 3. Complete 30 Vegetables and Crop Menu -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
@@ -116,6 +116,7 @@
 
         <button class="btn" onclick="searchLivePrices()">AI प्रेडिक्शन देखें 🚀</button>
 
+        <!-- Search Results Dashboard -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
@@ -125,7 +126,7 @@
     </div>
 
     <script>
-        // Real-world dynamic mapping object
+        // Real database array mapping 28 States with their active primary Sabzi Mandis
         const mandiData = {
             "Andhra Pradesh": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi"],
             "Arunachal Pradesh": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
@@ -150,4 +151,3 @@
             "Rajasthan": ["Jaipur Muhana Mandi", "Jodhpur Mandi", "Kota Mandi"],
             "Sikkim": ["Gangtok Lal Bazaar", "Namchi Market"],
             "Tamil Nadu": ["Chennai Koyambedu Mandi", "Coimbatore Market", "Madurai Mandi"],
-            "Telangana": ["Hyderabad Bowenpally", "Warangal Mandi", "Nizamabad Mandi"],
