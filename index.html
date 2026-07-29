@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Search Console Code -->
+    <!-- Google Search Console Code - NEVER REMOVE THIS -->
     <meta name="google-site-verification" content="6uzIQMyrIKcJh9DjMZfX1CejlnS8kR0oX2MQozq9k6g" />
     <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
     <style>
@@ -31,10 +31,11 @@
         <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन | डेवलपर: प्रतीक कुमार</p>
     </div>
     <div class="container">
-        <!-- 1. Pure 28 States Hardcoded -->
+        
+        <!-- 1. Pure 28 States -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
-            <select id="stateSelect">
+            <select id="stateSelect" onchange="updateMandiDropdown()">
                 <option value="">--राज्य चुनें / Select State--</option>
                 <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh (अरुणाचल प्रदेश)</option>
@@ -67,59 +68,56 @@
             </select>
         </div>
 
-        <!-- 2. Pure Static HTML Mandi Group Dropdown -->
+        <!-- 2. Dynamic Mandi Selector -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
-                <option value="">--मंडी चुनें / Select Mandi--</option>
-                <option value="Azadpur Mandi">Azadpur Mandi (दिल्ली/यूपी)</option>
-                <option value="Vashi Mandi">Vashi Mandi (मुंबई)</option>
-                <option value="Pune Mandi">Pune Mandi (पुणे)</option>
-                <option value="Nashik Mandi">Nashik Mandi (नाशिक)</option>
-                <option value="Agra Mandi">Agra Mandi (आगरा)</option>
-                <option value="Lucknow Mandi">Lucknow Mandi (लखनऊ)</option>
-                <option value="Indore Mandi">Indore Mandi (इन्दौर)</option>
-                <option value="Bhopal Mandi">Bhopal Mandi (भोपाल)</option>
-                <option value="Jaipur Mandi">Jaipur Mandi (जयपुर)</option>
-                <option value="Khanna Mandi">Khanna Mandi (पंजाब)</option>
-                <option value="Ahmedabad Mandi">Ahmedabad Mandi (गुजरात)</option>
-                <option value="Guntur Mandi">Guntur Mandi (आंध्र)</option>
-                <option value="Patna Mandi">Patna Mandi (बिहार)</option>
+                <option value="">--पहले राज्य चुनें / Select State First--</option>
             </select>
         </div>
 
-        <!-- 3. Exact 20 Vegetables / Crops Dropdown -->
+        <!-- 3. Pure 30 Vegetables / Crops Dropdown -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
                 <option value="">--सब्जी या फसल चुनें / Select Crop--</option>
-                <option value="आलू (Potato)">1. आलू (Potato)</option>
-                <option value="प्याज (Onion)">2. प्याज (Onion)</option>
-                <option value="टमाटर (Tomato)">3. टमाटर (Tomato)</option>
-                <option value="लहसुन (Garlic)">4. लहसुन (Garlic)</option>
-                <option value="अदरक (Ginger)">5. अदरक (Ginger)</option>
-                <option value="हरी मिर्च (Green Chillies)">6. हरी मिर्च (Green Chillies)</option>
-                <option value="फूलगोभी (Cauliflower)">7. फूलगोभी (Cauliflower)</option>
-                <option value="पत्तागोभी (Cabbage)">8. पत्तागोभी (Cabbage)</option>
-                <option value="बैंगन (Brinjal)">9. बैंगन (Brinjal)</option>
-                <option value="भिंडी (Lady Finger)">10. भिंडी (Lady Finger)</option>
-                <option value="गाजर (Carrot)">11. गाजर (Carrot)</option>
-                <option value="मूली (Radish)">12. मूली (Radish)</option>
-                <option value="पालक (Spinach)">13. पालक (Spinach)</option>
-                <option value="मटर (Green Peas)">14. मटर (Green Peas)</option>
-                <option value="खीरा (Cucumber)">15. खीरा (Cucumber)</option>
-                <option value="कद्दू (Pumpkin)">16. कद्दू (Pumpkin)</option>
-                <option value="शिमला मिर्च (Capsicum)">17. शिमला मिर्च (Capsicum)</option>
-                <option value="धनिया (Coriander)">18. धनिया (Coriander)</option>
-                <option value="नींबू (Lemon)">19. नींबू (Lemon)</option>
-                <option value="गेहूं (Wheat)">20. गेहूं (Wheat)</option>
+                <option value="Potato">1. आलू (Potato)</option>
+                <option value="Onion">2. प्याज (Onion)</option>
+                <option value="Tomato">3. टमाटर (Tomato)</option>
+                <option value="Garlic">4. लहसुन (Garlic)</option>
+                <option value="Ginger">5. अदरक (Ginger)</option>
+                <option value="Green Chillies">6. हरी मिर्च (Green Chillies)</option>
+                <option value="Cauliflower">7. फूलगोभी (Cauliflower)</option>
+                <option value="Cabbage">8. पत्तागोभी (Cabbage)</option>
+                <option value="Brinjal">9. बैंगन (Brinjal)</option>
+                <option value="Lady Finger">10. भिंडी (Lady Finger)</option>
+                <option value="Carrot">11. गाजर (Carrot)</option>
+                <option value="Radish">12. मूली (Radish)</option>
+                <option value="Spinach">13. पालक (Spinach)</option>
+                <option value="Green Peas">14. मटर (Green Peas)</option>
+                <option value="Cucumber">15. खीरा (Cucumber)</option>
+                <option value="Pumpkin">16. कद्दू (Pumpkin)</option>
+                <option value="Capsicum">17. शिमला मिर्च (Capsicum)</option>
+                <option value="Coriander">18. हरा धनिया (Coriander)</option>
+                <option value="Lemon">19. नींबू (Lemon)</option>
+                <option value="Bitter Gourd">20. करेला (Bitter Gourd)</option>
+                <option value="Bottle Gourd">21. लौकी (Bottle Gourd)</option>
+                <option value="Pointed Gourd">22. परवल (Pointed Gourd)</option>
+                <option value="Ridge Gourd">23. तोरई (Ridge Gourd)</option>
+                <option value="Mint">24. पुदीना (Mint)</option>
+                <option value="Beetroot">25. चुकंदर (Beetroot)</option>
+                <option value="Sweet Potato">26. शकरकंद (Sweet Potato)</option>
+                <option value="Beans">27. बीन्स (Beans)</option>
+                <option value="Fenugreek">28. मेथी (Fenugreek Leaves)</option>
+                <option value="Jackfruit">29. कटहल (Jackfruit)</option>
+                <option value="Wheat">30. गेहूं (Wheat)</option>
             </select>
         </div>
 
         <button class="btn" onclick="searchLivePrices()">AI प्रेडिक्शन देखें 🚀</button>
 
         <div class="result-card" id="priceOutputCard">
-            <h3 id="resTitle">📊 लाइव मंडी भाव</h3>
+            <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
             <div class="price-row"><span>अधिकतम भाव (Max):</span> <span class="price-val" id="maxPrice">₹0 /kg</span></div>
             <div class="price-row"><span>औसत भाव (Modal):</span> <span class="price-val" id="avgPrice">₹0 /kg</span></div>
@@ -127,27 +125,29 @@
     </div>
 
     <script>
-        // Baseline pricing engine matrix mapping data
-        const basePrices = {
-            "आलू (Potato)": { min: 14, max: 26 }, "प्याज (Onion)": { min: 28, max: 52 }, "टमाटर (Tomato)": { min: 18, max: 36 },
-            "लहसुन (Garlic)": { min: 110, max: 190 }, "अदरक (Ginger)": { min: 75, max: 135 }, "हरी मिर्च (Green Chillies)": { min: 38, max: 68 },
-            "फूलगोभी (Cauliflower)": { min: 22, max: 44 }, "पत्तागोभी (Cabbage)": { min: 15, max: 30 }, "बैंगन (Brinjal)": { min: 18, max: 32 },
-            "भिंडी (Lady Finger)": { min: 25, max: 50 }, "गाजर (Carrot)": { min: 20, max: 40 }, "मूली (Radish)": { min: 12, max: 25 },
-            "पालक (Spinach)": { min: 15, max: 28 }, "मटर (Green Peas)": { min: 40, max: 80 }, "खीरा (Cucumber)": { min: 18, max: 35 },
-            "कद्दू (Pumpkin)": { min: 10, max: 22 }, "शिमला मिर्च (Capsicum)": { min: 35, max: 70 }, "धनिया (Coriander)": { min: 25, max: 55 },
-            "नींबू (Lemon)": { min: 50, max: 100 }, "गेहूं (Wheat)": { min: 24, max: 32 }
-        };
-
-        function searchLivePrices() {
-            const state = document.getElementById("stateSelect").value;
-            const mandi = document.getElementById("mandiSelect").value;
-            const crop = document.getElementById("cropSelect").value;
-            const card = document.getElementById("priceOutputCard");
-
-            if (!state || !mandi || !crop) {
-                alert("कृपया पहले तीनों विकल्पों को चुनें!");
-                return;
-            }
-
-            let price = basePrices[crop] || { min: 20, max: 40 };
-            
+        // Real-world dynamic mapping object
+        const mandiData = {
+            "Andhra Pradesh": ["Guntur Mandi", "Kurnool Mandi", "Vijayawada Mandi"],
+            "Arunachal Pradesh": ["Pasighat Mandi", "Namsai Mandi", "Naharlagun Mandi"],
+            "Assam": ["Guwahati Mandi", "Jorhat Mandi", "Silchar Mandi"],
+            "Bihar": ["Gulabbagh Mandi", "Patna Mandi", "Muzaffarpur Mandi"],
+            "Chhattisgarh": ["Raipur Mandi", "Durg Mandi", "Bilaspur Mandi"],
+            "Goa": ["Panaji Mandi", "Margao Mandi", "Mapusa Mandi"],
+            "Gujarat": ["Ahmedabad Mandi", "Gondal Mandi", "Surat Mandi"],
+            "Haryana": ["Karnal Mandi", "Ambala Mandi", "Gurugram Mandi"],
+            "Himachal Pradesh": ["Shimla Mandi", "Solan Mandi", "Kullu Mandi"],
+            "Jharkhand": ["Ranchi Mandi", "Jamshedpur Mandi", "Dhanbad Mandi"],
+            "Karnataka": ["Bengaluru Mandi", "Hubli Mandi", "Mysuru Mandi"],
+            "Kerala": ["Kochi Mandi", "Kozhikode Mandi", "Thiruvananthapuram Mandi"],
+            "Madhya Pradesh": ["Indore Choithram Mandi", "Bhopal Karond Mandi", "Ujjain Mandi"],
+            "Maharashtra": ["Mumbai Vashi Mandi", "Pune Gultekdi Mandi", "Nashik Mandi"],
+            "Manipur": ["Imphal Mandi", "Thoubal Mandi"],
+            "Meghalaya": ["Shillong Mandi", "Tura Mandi"],
+            "Mizoram": ["Aizawl Mandi", "Lunglei Mandi"],
+            "Nagaland": ["Dimapur Mandi", "Kohima Market"],
+            "Odisha": ["Bhubaneswar Mandi", "Cuttack Market", "Sambalpur Mandi"],
+            "Punjab": ["Ludhiana Mandi", "Khanna Mandi", "Amritsar Mandi"],
+            "Rajasthan": ["Jaipur Muhana Mandi", "Jodhpur Mandi", "Kota Mandi"],
+            "Sikkim": ["Gangtok Lal Bazaar", "Namchi Market"],
+            "Tamil Nadu": ["Chennai Koyambedu Mandi", "Coimbatore Market", "Madurai Mandi"],
+            "Telangana": ["Hyderabad Bowenpally", "Warangal Mandi", "Nizamabad Mandi"],
