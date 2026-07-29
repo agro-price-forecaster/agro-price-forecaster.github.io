@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Search Console Code - NEVER REMOVE THIS -->
+    <!-- Google Search Console Code - Added Perfectly -->
     <meta name="google-site-verification" content="6uzIQMyrIKcJh9DjMZfX1CejlnS8kR0oX2MQozq9k6g" />
     <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
     <style>
@@ -32,11 +32,11 @@
     </div>
     <div class="container">
         
-        <!-- 1. State Input Element -->
+        <!-- 1. Pure 28 States -->
         <div class="form-group">
             <label>1. राज्य चुनें (Select State)</label>
             <select id="stateSelect">
-                <option value="Select State">--राज्य चुनें / Select State--</option>
+                <option value="">--राज्य चुनें / Select State--</option>
                 <option value="Andhra Pradesh">Andhra Pradesh (आंध्र प्रदेश)</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh (अरुणाचल प्रदेश)</option>
                 <option value="Assam">Assam (असम)</option>
@@ -68,7 +68,7 @@
             </select>
         </div>
 
-        <!-- 2. Pure Hardcoded Mandi Group System (No JS Mismatch Possible) -->
+        <!-- 2. Pure Hardcoded Mandi Group System -->
         <div class="form-group">
             <label>2. मंडी चुनें (Select Mandi)</label>
             <select id="mandiSelect">
@@ -111,7 +111,7 @@
             </select>
         </div>
 
-        <!-- 3. Complete 30 Vegetables Menu -->
+        <!-- 3. Complete 30 Vegetables Dropdown -->
         <div class="form-group">
             <label>3. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
@@ -151,7 +151,8 @@
 
         <button class="btn" onclick="searchLivePrices()">AI प्रेडिक्शन देखें 🚀</button>
 
-        <!-- Dynamic Results Screen -->
+        <!-- Dynamic Results Card Display -->
         <div class="result-card" id="priceOutputCard">
             <h3 id="resTitle">📊 लाइव मंडी भाव रिकॉर्ड</h3>
             <div class="price-row"><span>न्यूनतम भाव (Min):</span> <span class="price-val" id="minPrice">₹0 /kg</span></div>
+            <div class="price-row"><span>अधिकतम भाव (Max):</span> <span class="price-val" id="maxPrice">₹0 /kg</span></div>
