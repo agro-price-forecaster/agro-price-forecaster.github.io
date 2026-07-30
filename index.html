@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</title>
+    <title>नेशनल एग्री-प्राइस प्रेडिक्शन</title>
     <style>
         * {
             box-sizing: border-box;
@@ -97,7 +97,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन MODEL V4</h1>
+        <h1>🌾 नेशनल एग्री-प्राइस प्रेडिक्शन</h1>
         <p>वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
     </div>
 
@@ -131,126 +131,126 @@
 
         <!-- Result Display Box -->
         <div class="result-box" id="resultBox">
-            <h3 id="resTitle">مری ಫಲಿತಾಂಶ / Result</h3>
+            <h3 id="resTitle">Result</h3>
             <p id="resDetails"></p>
         </div>
     </div>
 </div>
 
 <script>
-    // Database for 28 States, Mandis, and Crops with Prices
+    // Master Database for All 28 States, Mandis and 15+ Vegetables
     const data = {
         "Uttar Pradesh": {
             mandis: ["Azad Nagar Mandi (Lucknow)", "Muzaffarnagar Mandi", "Agra Mandi", "Varanasi Mandi"],
-            crops: { "Aalu (Potato)": "₹15 - ₹25 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹22 - ₹40 / kg", "Lauki": "₹15 - ₹30 / kg", "Gobhi": "₹15 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg" }
+            crops: { "Aalu (Potato)": "₹15 - ₹25 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹25 - ₹45 / kg", "Lauki": "₹15 - ₹30 / kg", "Turai (Tori)": "₹20 - ₹35 / kg", "Kaddu (Pumpkin)": "₹15 - ₹28 / kg", "Bhindi": "₹22 - ₹40 / kg", "Beans": "₹40 - ₹70 / kg", "Arbi": "₹25 - ₹45 / kg", "Jimikand (Suran)": "₹35 - ₹60 / kg", "Kathal (Jackfruit)": "₹25 - ₹45 / kg", "Chukandar (Beetroot)": "₹25 - ₹50 / kg", "Shalgam": "₹20 - ₹40 / kg", "Gobhi (Cauliflower)": "₹15 - ₹35 / kg" }
         },
         "Maharashtra": {
             mandis: ["Vashi APMC Mandi (Navi Mumbai)", "Lasalgaon Mandi (Nashik)", "Pune APMC Market", "Nagpur Mandi"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹18 - ₹30 / kg", "Tamatar (Tomato)": "₹22 - ₹40 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹20 - ₹40 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹48 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹18 - ₹30 / kg", "Tamatar (Tomato)": "₹22 - ₹40 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹48 / kg", "Parwal": "₹35 - ₹55 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹42 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹28 - ₹48 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹28 - ₹48 / kg", "Chukandar (Beetroot)": "₹30 - ₹55 / kg", "Shalgam": "₹28 - ₹48 / kg", "Gobhi (Cauliflower)": "₹20 - ₹40 / kg" }
         },
         "Bihar": {
             mandis: ["Musallahpur Mandi (Patna)", "Muzaffarpur Mandi", "Bhagalpur Market"],
-            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹20 - ₹40 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹35 - ₹55 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹40 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹25 - ₹45 / kg", "Chukandar (Beetroot)": "₹30 - ₹55 / kg", "Shalgam": "₹25 - ₹45 / kg", "Gobhi (Cauliflower)": "₹20 - ₹40 / kg" }
         },
         "Madhya Pradesh": {
             mandis: ["Neemuch Mandi", "Mandsaur Mandi", "Indore Grain Market", "Ujjain Mandi"],
-            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹20 - ₹30 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹22 - ₹38 / kg", "Lauki": "₹18 - ₹32 / kg", "Gobhi": "₹18 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹42 / kg" }
+            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹20 - ₹30 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹42 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹28 - ₹45 / kg", "Lauki": "₹18 - ₹32 / kg", "Turai (Tori)": "₹22 - ₹38 / kg", "Kaddu (Pumpkin)": "₹15 - ₹28 / kg", "Bhindi": "₹22 - ₹38 / kg", "Beans": "₹40 - ₹70 / kg", "Arbi": "₹25 - ₹45 / kg", "Jimikand (Suran)": "₹35 - ₹60 / kg", "Kathal (Jackfruit)": "₹25 - ₹45 / kg", "Chukandar (Beetroot)": "₹28 - ₹50 / kg", "Shalgam": "₹25 - ₹45 / kg", "Gobhi (Cauliflower)": "₹18 - ₹35 / kg" }
         },
         "Rajasthan": {
             mandis: ["Muhana Mandi (Jaipur)", "Jodhpur Mandi", "Kota Grain Market", "Bikaner Mandi"],
-            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹25 - ₹42 / kg", "Bhindi": "₹28 - ₹48 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹22 - ₹42 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹25 - ₹42 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹35 - ₹55 / kg", "Tinda": "₹32 - ₹52 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹45 / kg", "Kaddu (Pumpkin)": "₹18 - ₹32 / kg", "Bhindi": "₹28 - ₹48 / kg", "Beans": "₹50 - ₹80 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹32 - ₹55 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹22 - ₹42 / kg" }
         },
         "Punjab": {
             mandis: ["Khanna Mandi (Ludhiana)", "Amritsar Grain Market", "Patiala Mandi"],
-            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹22 - ₹40 / kg", "Lauki": "₹15 - ₹30 / kg", "Gobhi": "₹15 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg" }
+            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹25 - ₹45 / kg", "Lauki": "₹15 - ₹30 / kg", "Turai (Tori)": "₹20 - ₹35 / kg", "Kaddu (Pumpkin)": "₹15 - ₹28 / kg", "Bhindi": "₹22 - ₹40 / kg", "Beans": "₹40 - ₹70 / kg", "Arbi": "₹25 - ₹45 / kg", "Jimikand (Suran)": "₹35 - ₹60 / kg", "Kathal (Jackfruit)": "₹25 - ₹45 / kg", "Chukandar (Beetroot)": "₹25 - ₹50 / kg", "Shalgam": "₹20 - ₹40 / kg", "Gobhi (Cauliflower)": "₹15 - ₹35 / kg" }
         },
         "Haryana": {
             mandis: ["Karnal Grain Market", "Rohtak APMC Mandi", "Hisar Mandi"],
-            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹22 - ₹40 / kg", "Lauki": "₹15 - ₹30 / kg", "Gobhi": "₹15 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg" }
+            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹22 - ₹32 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹35 - ₹60 / kg", "Karela": "₹25 - ₹45 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹25 - ₹45 / kg", "Lauki": "₹15 - ₹30 / kg", "Turai (Tori)": "₹20 - ₹35 / kg", "Kaddu (Pumpkin)": "₹15 - ₹28 / kg", "Bhindi": "₹22 - ₹40 / kg", "Beans": "₹40 - ₹70 / kg", "Arbi": "₹25 - ₹45 / kg", "Jimikand (Suran)": "₹35 - ₹60 / kg", "Kathal (Jackfruit)": "₹25 - ₹45 / kg", "Chukandar (Beetroot)": "₹25 - ₹50 / kg", "Shalgam": "₹20 - ₹40 / kg", "Gobhi (Cauliflower)": "₹15 - ₹35 / kg" }
         },
         "Gujarat": {
             mandis: ["Unjha Mandi", "Gondal Mandi", "Sardar Patel Market (Ahmedabad)"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹20 - ₹30 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Bhindi": "₹28 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹25 - ₹45 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹20 - ₹30 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹35 - ₹60 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹42 / kg", "Kaddu (Pumpkin)": "₹20 - ₹32 / kg", "Bhindi": "₹28 - ₹45 / kg", "Beans": "₹50 - ₹80 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹35 - ₹60 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹25 - ₹45 / kg" }
         },
         "Karnataka": {
             mandis: ["Kolar APMC Yard", "Yeshwanthpur APMC (Bengaluru)", "Byadgi Mandi"],
-            crops: { "Aalu (Potato)": "₹25 - ₹38 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹15 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹25 - ₹45 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹25 - ₹38 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹15 - ₹30 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹40 - ₹65 / kg", "Tinda": "₹35 - ₹55 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹45 / kg", "Kaddu (Pumpkin)": "₹20 - ₹32 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹32 - ₹52 / kg", "Chukandar (Beetroot)": "₹35 - ₹60 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹25 - ₹45 / kg" }
         },
         "Tamil Nadu": {
             mandis: ["Koyambedu Market (Chennai)", "Madurai Central Market", "Salem Agro Market"],
-            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹25 - ₹45 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹40 - ₹65 / kg", "Tinda": "₹35 - ₹55 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹45 / kg", "Kaddu (Pumpkin)": "₹20 - ₹35 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹50 - ₹80 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹32 - ₹52 / kg", "Chukandar (Beetroot)": "₹35 - ₹60 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹25 - ₹45 / kg" }
         },
         "West Bengal": {
             mandis: ["Posta Bazar (Kolkata)", "Mechhua Fruit Market", "Siliguri Regulated Market"],
-            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹22 - ₹40 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹20 - ₹40 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹18 - ₹28 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹22 - ₹40 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹32 - ₹52 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹42 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹28 - ₹48 / kg", "Chukandar (Beetroot)": "₹32 - ₹55 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹20 - ₹40 / kg" }
         },
         "Andhra Pradesh": {
             mandis: ["Guntur Mirchi Yard", "Adoni Mandi", "Vijayawada Rythu Bazar"],
-            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹20 - ₹40 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹25 - ₹45 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹20 - ₹30 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹20 - ₹40 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹40 - ₹60 / kg", "Tinda": "₹35 - ₹55 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹45 / kg", "Kaddu (Pumpkin)": "₹20 - ₹35 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹50 - ₹80 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹35 - ₹60 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹25 - ₹45 / kg" }
         },
         "Telangana": {
             mandis: ["Nizamabad Mandi", "Warangal Mirchi Yard", "Bowenpally Mandi (Hyderabad)"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹22 - ₹42 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹38 - ₹60 / kg", "Tinda": "₹32 - ₹52 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹45 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹32 - ₹55 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹22 - ₹42 / kg" }
         },
         "Kerala": {
             mandis: ["Kochi Spices Market (Mattancherry)", "Wayanad Spice Mandi", "Calicut Market"],
-            crops: { "Aalu (Potato)": "₹30 - ₹40 / kg", "Pyaj (Onion)": "₹35 - ₹50 / kg", "Tamatar (Tomato)": "₹35 - ₹55 / kg", "Bhindi": "₹35 - ₹60 / kg", "Lauki": "₹30 - ₹50 / kg", "Gobhi": "₹35 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹40 - ₹65 / kg" }
+            crops: { "Aalu (Potato)": "₹30 - ₹40 / kg", "Pyaj (Onion)": "₹35 - ₹50 / kg", "Tamatar (Tomato)": "₹35 - ₹55 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹40 - ₹65 / kg", "Parwal": "₹50 - ₹75 / kg", "Tinda": "₹45 - ₹70 / kg", "Lauki": "₹30 - ₹50 / kg", "Turai (Tori)": "₹35 - ₹60 / kg", "Kaddu (Pumpkin)": "₹25 - ₹45 / kg", "Bhindi": "₹35 - ₹60 / kg", "Beans": "₹65 - ₹95 / kg", "Arbi": "₹40 - ₹65 / kg", "Jimikand (Suran)": "₹55 - ₹85 / kg", "Kathal (Jackfruit)": "₹35 - ₹60 / kg", "Chukandar (Beetroot)": "₹45 - ₹75 / kg", "Shalgam": "₹40 - ₹65 / kg", "Gobhi (Cauliflower)": "₹35 - ₹60 / kg" }
         },
         "Odisha": {
             mandis: ["Chhatra Bazar (Cuttack)", "Unit-I Market (Bhubaneswar)", "Berhampur Market"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹20 - ₹40 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹40 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹32 - ₹52 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹42 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹28 - ₹48 / kg", "Chukandar (Beetroot)": "₹30 - ₹55 / kg", "Shalgam": "₹28 - ₹48 / kg", "Gobhi (Cauliflower)": "₹20 - ₹40 / kg" }
         },
         "Jharkhand": {
             mandis: ["Pandra Market (Ranchi)", "Jamshedpur Market", "Dhanbad Mandi"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Bhindi": "₹28 - ₹48 / kg", "Lauki": "₹22 - ₹38 / kg", "Gobhi": "₹22 - ₹42 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹32 - ₹52 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Simla Mirch": "₹45 - ₹70 / kg", "Karela": "₹32 - ₹52 / kg", "Parwal": "₹38 - ₹60 / kg", "Tinda": "₹35 - ₹55 / kg", "Lauki": "₹22 - ₹38 / kg", "Turai (Tori)": "₹28 - ₹45 / kg", "Kaddu (Pumpkin)": "₹20 - ₹35 / kg", "Bhindi": "₹28 - ₹48 / kg", "Beans": "₹50 - ₹80 / kg", "Arbi": "₹32 - ₹52 / kg", "Jimikand (Suran)": "₹45 - ₹70 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹35 - ₹60 / kg", "Shalgam": "₹30 - ₹50 / kg", "Gobhi (Cauliflower)": "₹22 - ₹42 / kg" }
         },
         "Chhattisgarh": {
             mandis: ["Fafadih Mandi (Raipur)", "Rajnandgaon Market", "Bilaspur Yard"],
-            crops: { "Aalu (Potato)": "₹20 - ₹28 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Bhindi": "₹25 - ₹40 / kg", "Lauki": "₹18 - ₹30 / kg", "Gobhi": "₹20 - ₹38 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹45 / kg" }
+            crops: { "Aalu (Potato)": "₹20 - ₹28 / kg", "Pyaj (Onion)": "₹25 - ₹35 / kg", "Tamatar (Tomato)": "₹20 - ₹35 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹45 / kg", "Parwal": "₹30 - ₹50 / kg", "Tinda": "₹28 - ₹45 / kg", "Lauki": "₹18 - ₹30 / kg", "Turai (Tori)": "₹22 - ₹38 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹40 / kg", "Beans": "₹40 - ₹70 / kg", "Arbi": "₹28 - ₹48 / kg", "Jimikand (Suran)": "₹40 - ₹60 / kg", "Kathal (Jackfruit)": "₹28 - ₹45 / kg", "Chukandar (Beetroot)": "₹30 - ₹50 / kg", "Shalgam": "₹25 - ₹45 / kg", "Gobhi (Cauliflower)": "₹20 - ₹38 / kg" }
         },
         "Assam": {
             mandis: ["Fatasil Ambari Mandi (Guwahati)", "Tinsukia Market", "Silchar Yard"],
-            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹40 / kg", "Tamatar (Tomato)": "₹30 - ₹50 / kg", "Bhindi": "₹30 - ₹50 / kg", "Lauki": "₹25 - ₹40 / kg", "Gobhi": "₹30 - ₹55 / kg", "Simla Mirch": "₹50 - ₹75 / kg", "Karela": "₹35 - ₹55 / kg" }
+            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹40 / kg", "Tamatar (Tomato)": "₹30 - ₹50 / kg", "Simla Mirch": "₹50 - ₹75 / kg", "Karela": "₹35 - ₹55 / kg", "Parwal": "₹40 - ₹65 / kg", "Tinda": "₹35 - ₹60 / kg", "Lauki": "₹25 - ₹40 / kg", "Turai (Tori)": "₹30 - ₹50 / kg", "Kaddu (Pumpkin)": "₹20 - ₹35 / kg", "Bhindi": "₹30 - ₹50 / kg", "Beans": "₹60 - ₹90 / kg", "Arbi": "₹35 - ₹55 / kg", "Jimikand (Suran)": "₹50 - ₹75 / kg", "Kathal (Jackfruit)": "₹35 - ₹55 / kg", "Chukandar (Beetroot)": "₹40 - ₹65 / kg", "Shalgam": "₹35 - ₹60 / kg", "Gobhi (Cauliflower)": "₹30 - ₹55 / kg" }
         },
         "Himachal Pradesh": {
             mandis: ["Solan Sabzi Mandi", "Parwanoo Fruit Mandi", "Shimla Market"],
-            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹15 - ₹30 / kg", "Bhindi": "₹28 - ₹45 / kg", "Lauki": "₹20 - ₹35 / kg", "Gobhi": "₹12 - ₹30 / kg", "Simla Mirch": "₹30 - ₹55 / kg", "Karela": "₹30 - ₹50 / kg" }
+            crops: { "Aalu (Potato)": "₹25 - ₹35 / kg", "Pyaj (Onion)": "₹30 - ₹45 / kg", "Tamatar (Tomato)": "₹15 - ₹30 / kg", "Simla Mirch": "₹30 - ₹55 / kg", "Karela": "₹30 - ₹50 / kg", "Parwal": "₹35 - ₹60 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹20 - ₹35 / kg", "Turai (Tori)": "₹25 - ₹40 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹28 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹30 - ₹50 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹30 - ₹50 / kg", "Chukandar (Beetroot)": "₹25 - ₹45 / kg", "Shalgam": "₹20 - ₹40 / kg", "Gobhi (Cauliflower)": "₹12 - ₹30 / kg" }
         },
         "Uttarakhand": {
             mandis: ["Haldwani Mandi", "Dehradun Subzi Mandi", "Haridwar Market"],
-            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Bhindi": "₹25 - ₹45 / kg", "Lauki": "₹18 - ₹32 / kg", "Gobhi": "₹18 - ₹38 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹48 / kg" }
+            crops: { "Aalu (Potato)": "₹22 - ₹32 / kg", "Pyaj (Onion)": "₹25 - ₹38 / kg", "Tamatar (Tomato)": "₹25 - ₹45 / kg", "Simla Mirch": "₹40 - ₹65 / kg", "Karela": "₹28 - ₹48 / kg", "Parwal": "₹35 - ₹55 / kg", "Tinda": "₹30 - ₹50 / kg", "Lauki": "₹18 - ₹32 / kg", "Turai (Tori)": "₹22 - ₹38 / kg", "Kaddu (Pumpkin)": "₹18 - ₹30 / kg", "Bhindi": "₹25 - ₹45 / kg", "Beans": "₹45 - ₹75 / kg", "Arbi": "₹28 - ₹48 / kg", "Jimikand (Suran)": "₹40 - ₹65 / kg", "Kathal (Jackfruit)": "₹28 - ₹48 / kg", "Chukandar (Beetroot)": "₹30 - ₹55 / kg", "Shalgam": "₹25 - ₹45 / kg", "Gobhi (Cauliflower)": "₹18 - ₹38 / kg" }
         },
         "Goa": {
             mandis: ["Margao Market", "Panaji Municipal Market"],
-            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹35 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹40 - ₹65 / kg", "Lauki": "₹35 - ₹55 / kg", "Gobhi": "₹40 - ₹70 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹45 - ₹70 / kg" }
+            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹35 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹45 - ₹70 / kg", "Parwal": "₹50 - ₹80 / kg", "Tinda": "₹45 - ₹75 / kg", "Lauki": "₹35 - ₹55 / kg", "Turai (Tori)": "₹40 - ₹65 / kg", "Kaddu (Pumpkin)": "₹30 - ₹50 / kg", "Bhindi": "₹40 - ₹65 / kg", "Beans": "₹70 - ₹100 / kg", "Arbi": "₹45 - ₹70 / kg", "Jimikand (Suran)": "₹60 - ₹90 / kg", "Kathal (Jackfruit)": "₹45 - ₹70 / kg", "Chukandar (Beetroot)": "₹50 - ₹80 / kg", "Shalgam": "₹45 - ₹70 / kg", "Gobhi (Cauliflower)": "₹40 - ₹70 / kg" }
         },
         "Tripura": {
             mandis: ["Krishi Bazar (Agartala)", "Udaipur Market"],
-            crops: { "Aalu (Potato)": "₹28 - ₹38 / kg", "Pyaj (Onion)": "₹35 - ₹48 / kg", "Tamatar (Tomato)": "₹35 - ₹55 / kg", "Bhindi": "₹30 - ₹50 / kg", "Lauki": "₹25 - ₹40 / kg", "Gobhi": "₹30 - ₹55 / kg", "Simla Mirch": "₹50 - ₹75 / kg", "Karela": "₹35 - ₹55 / kg" }
+            crops: { "Aalu (Potato)": "₹28 - ₹38 / kg", "Pyaj (Onion)": "₹35 - ₹48 / kg", "Tamatar (Tomato)": "₹35 - ₹55 / kg", "Simla Mirch": "₹50 - ₹75 / kg", "Karela": "₹35 - ₹55 / kg", "Parwal": "₹40 - ₹65 / kg", "Tinda": "₹35 - ₹60 / kg", "Lauki": "₹25 - ₹40 / kg", "Turai (Tori)": "₹30 - ₹50 / kg", "Kaddu (Pumpkin)": "₹20 - ₹35 / kg", "Bhindi": "₹30 - ₹50 / kg", "Beans": "₹60 - ₹90 / kg", "Arbi": "₹35 - ₹55 / kg", "Jimikand (Suran)": "₹50 - ₹75 / kg", "Kathal (Jackfruit)": "₹35 - ₹55 / kg", "Chukandar (Beetroot)": "₹40 - ₹65 / kg", "Shalgam": "₹35 - ₹60 / kg", "Gobhi (Cauliflower)": "₹30 - ₹55 / kg" }
         },
         "Meghalaya": {
             mandis: ["Mawlai Mandi (Shillong)", "Tura Market"],
-            crops: { "Aalu (Potato)": "₹32 - ₹42 / kg", "Pyaj (Onion)": "₹40 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹35 - ₹60 / kg", "Lauki": "₹28 - ₹48 / kg", "Gobhi": "₹35 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg" }
+            crops: { "Aalu (Potato)": "₹32 - ₹42 / kg", "Pyaj (Onion)": "₹40 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg", "Parwal": "₹45 - ₹70 / kg", "Tinda": "₹40 - ₹65 / kg", "Lauki": "₹28 - ₹48 / kg", "Turai (Tori)": "₹32 - ₹52 / kg", "Kaddu (Pumpkin)": "₹22 - ₹40 / kg", "Bhindi": "₹35 - ₹60 / kg", "Beans": "₹65 - ₹95 / kg", "Arbi": "₹38 - ₹62 / kg", "Jimikand (Suran)": "₹55 - ₹85 / kg", "Kathal (Jackfruit)": "₹38 - ₹62 / kg", "Chukandar (Beetroot)": "₹45 - ₹70 / kg", "Shalgam": "₹40 - ₹65 / kg", "Gobhi (Cauliflower)": "₹35 - ₹60 / kg" }
         },
         "Manipur": {
             mandis: ["Khwairamband Bazaar (Imphal)", "Churachandpur Market"],
-            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹40 - ₹65 / kg", "Lauki": "₹30 - ₹50 / kg", "Gobhi": "₹40 - ₹65 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹40 - ₹65 / kg" }
+            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹40 - ₹65 / kg", "Parwal": "₹50 - ₹75 / kg", "Tinda": "₹45 - ₹70 / kg", "Lauki": "₹30 - ₹50 / kg", "Turai (Tori)": "₹35 - ₹55 / kg", "Kaddu (Pumpkin)": "₹25 - ₹45 / kg", "Bhindi": "₹40 - ₹65 / kg", "Beans": "₹70 - ₹100 / kg", "Arbi": "₹40 - ₹65 / kg", "Jimikand (Suran)": "₹60 - ₹90 / kg", "Kathal (Jackfruit)": "₹40 - ₹65 / kg", "Chukandar (Beetroot)": "₹50 - ₹75 / kg", "Shalgam": "₹45 - ₹70 / kg", "Gobhi (Cauliflower)": "₹40 - ₹65 / kg" }
         },
         "Nagaland": {
             mandis: ["Super Market Dimapur", "Kohima Agriculture Yard"],
-            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹35 - ₹60 / kg", "Lauki": "₹28 - ₹48 / kg", "Gobhi": "₹35 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg" }
+            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg", "Parwal": "₹45 - ₹70 / kg", "Tinda": "₹40 - ₹65 / kg", "Lauki": "₹28 - ₹48 / kg", "Turai (Tori)": "₹32 - ₹52 / kg", "Kaddu (Pumpkin)": "₹22 - ₹40 / kg", "Bhindi": "₹35 - ₹60 / kg", "Beans": "₹65 - ₹95 / kg", "Arbi": "₹38 - ₹62 / kg", "Jimikand (Suran)": "₹55 - ₹85 / kg", "Kathal (Jackfruit)": "₹38 - ₹62 / kg", "Chukandar (Beetroot)": "₹45 - ₹70 / kg", "Shalgam": "₹40 - ₹65 / kg", "Gobhi (Cauliflower)": "₹35 - ₹60 / kg" }
         },
         "Arunachal Pradesh": {
             mandis: ["Naharlagun Market", "Itanagar Local Market"],
-            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹40 - ₹60 / kg", "Lauki": "₹30 - ₹50 / kg", "Gobhi": "₹40 - ₹65 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹40 - ₹65 / kg" }
+            crops: { "Aalu (Potato)": "₹35 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹50 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹60 - ₹90 / kg", "Karela": "₹40 - ₹65 / kg", "Parwal": "₹50 - ₹75 / kg", "Tinda": "₹45 - ₹70 / kg", "Lauki": "₹30 - ₹50 / kg", "Turai (Tori)": "₹35 - ₹55 / kg", "Kaddu (Pumpkin)": "₹25 - ₹45 / kg", "Bhindi": "₹40 - ₹60 / kg", "Beans": "₹70 - ₹100 / kg", "Arbi": "₹40 - ₹60 / kg", "Jimikand (Suran)": "₹60 - ₹90 / kg", "Kathal (Jackfruit)": "₹40 - ₹65 / kg", "Chukandar (Beetroot)": "₹50 - ₹75 / kg", "Shalgam": "₹45 - ₹70 / kg", "Gobhi (Cauliflower)": "₹40 - ₹65 / kg" }
         },
         "Mizoram": {
             mandis: ["Bawngkawn Market (Aizawl)", "Lunglei Market"],
-            crops: { "Aalu (Potato)": "₹35 - ₹48 / kg", "Pyaj (Onion)": "₹45 - ₹60 / kg", "Tamatar (Tomato)": "₹45 - ₹65 / kg", "Bhindi": "₹45 - ₹70 / kg", "Lauki": "₹35 - ₹55 / kg", "Gobhi": "₹45 - ₹70 / kg", "Simla Mirch": "₹65 - ₹95 / kg", "Karela": "₹45 - ₹70 / kg" }
+            crops: { "Aalu (Potato)": "₹35 - ₹48 / kg", "Pyaj (Onion)": "₹45 - ₹60 / kg", "Tamatar (Tomato)": "₹45 - ₹65 / kg", "Simla Mirch": "₹65 - ₹95 / kg", "Karela": "₹45 - ₹70 / kg", "Parwal": "₹55 - ₹80 / kg", "Tinda": "₹50 - ₹75 / kg", "Lauki": "₹35 - ₹55 / kg", "Turai (Tori)": "₹40 - ₹60 / kg", "Kaddu (Pumpkin)": "₹30 - ₹50 / kg", "Bhindi": "₹45 - ₹70 / kg", "Beans": "₹75 - ₹110 / kg", "Arbi": "₹45 - ₹70 / kg", "Jimikand (Suran)": "₹65 - ₹95 / kg", "Kathal (Jackfruit)": "₹45 - ₹70 / kg", "Chukandar (Beetroot)": "₹55 - ₹80 / kg", "Shalgam": "₹50 - ₹75 / kg", "Gobhi (Cauliflower)": "₹45 - ₹70 / kg" }
         },
         "Sikkim": {
             mandis: ["Gangtok Local Mandi", "Singtam Market"],
-            crops: { "Aalu (Potato)": "₹32 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Bhindi": "₹35 - ₹60 / kg", "Lauki": "₹28 - ₹48 / kg", "Gobhi": "₹35 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg" }
+            crops: { "Aalu (Potato)": "₹32 - ₹45 / kg", "Pyaj (Onion)": "₹40 - ₹55 / kg", "Tamatar (Tomato)": "₹40 - ₹60 / kg", "Simla Mirch": "₹55 - ₹85 / kg", "Karela": "₹38 - ₹62 / kg", "Parwal": "₹45 - ₹70 / kg", "Tinda": "₹40 - ₹65 / kg", "Lauki": "₹28 - ₹48 / kg", "Turai (Tori)": "₹32 - ₹52 / kg", "Kaddu (Pumpkin)": "₹22 - ₹40 / kg", "Bhindi": "₹35 - ₹60 / kg", "Beans": "₹65 - ₹95 / kg", "Arbi": "₹38 - ₹62 / kg", "Jimikand (Suran)": "₹55 - ₹85 / kg", "Kathal (Jackfruit)": "₹38 - ₹62 / kg", "Chukandar (Beetroot)": "₹45 - ₹70 / kg", "Shalgam": "₹40 - ₹65 / kg", "Gobhi (Cauliflower)": "₹35 - ₹60 / kg" }
         }
     };
 
