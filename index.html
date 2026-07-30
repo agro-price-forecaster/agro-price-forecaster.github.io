@@ -169,22 +169,119 @@
 </div>
 
 <script>
+    // Complete Database for All 28 States, Mandis and 16+ Vegetables with base prices
     const data = {
         "Uttar Pradesh": {
             mandis: ["Azad Nagar Mandi (Lucknow)", "Muzaffarnagar Mandi", "Agra Mandi", "Varanasi Mandi"],
-            crops: { "Aalu (Potato)": 20, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Gobhi (Cauliflower)": 25 }
+            crops: { "Aalu (Potato)": 20, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Maharashtra": {
             mandis: ["Vashi APMC Mandi (Navi Mumbai)", "Lasalgaon Mandi (Nashik)", "Pune APMC Market", "Nagpur Mandi"],
-            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 24, "Tamatar (Tomato)": 31, "Simla Mirch": 52, "Karela": 38, "Gobhi (Cauliflower)": 30 }
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 24, "Tamatar (Tomato)": 31, "Simla Mirch": 52, "Karela": 38, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 38, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
         },
         "Bihar": {
             mandis: ["Musallahpur Mandi (Patna)", "Muzaffarpur Mandi", "Bhagalpur Market"],
-            crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 35, "Simla Mirch": 52, "Karela": 40, "Gobhi (Cauliflower)": 30 }
+            crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 35, "Simla Mirch": 52, "Karela": 40, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 30 }
+        },
+        "Madhya Pradesh": {
+            mandis: ["Neemuch Mandi", "Mandsaur Mandi", "Indore Grain Market", "Ujjain Mandi"],
+            crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 25, "Tamatar (Tomato)": 28, "Simla Mirch": 48, "Karela": 32, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 48, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Rajasthan": {
             mandis: ["Muhana Mandi (Jaipur)", "Jodhpur Mandi", "Kota Grain Market", "Bikaner Mandi"],
-            crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 33, "Simla Mirch": 52, "Karela": 40, "Gobhi (Cauliflower)": 32 }
+            crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 33, "Simla Mirch": 52, "Karela": 40, "Parwal": 45, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 38, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
+        },
+        "Punjab": {
+            mandis: ["Khanna Mandi (Ludhiana)", "Amritsar Grain Market", "Patiala Mandi"],
+            crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
+        },
+        "Haryana": {
+            mandis: ["Karnal Grain Market", "Rohtak APMC Mandi", "Hisar Mandi"],
+            crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
+        },
+        "Gujarat": {
+            mandis: ["Unjha Mandi", "Gondal Mandi", "Sardar Patel Market (Ahmedabad)"],
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 25, "Tamatar (Tomato)": 32, "Simla Mirch": 58, "Karela": 40, "Parwal": 48, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 35 }
+        },
+        "Karnataka": {
+            mandis: ["Kolar APMC Yard", "Yeshwanthpur APMC (Bengaluru)", "Byadgi Mandi"],
+            crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 22, "Simla Mirch": 52, "Karela": 40, "Parwal": 52, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 42, "Gobhi (Cauliflower)": 35 }
+        },
+        "Tamil Nadu": {
+            mandis: ["Koyambedu Market (Chennai)", "Madurai Central Market", "Salem Agro Market"],
+            crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 32, "Simla Mirch": 58, "Karela": 40, "Parwal": 52, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 42, "Gobhi (Cauliflower)": 35 }
+        },
+        "West Bengal": {
+            mandis: ["Posta Bazar (Kolkata)", "Mechhua Fruit Market", "Siliguri Regulated Market"],
+            crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 30, "Simla Mirch": 58, "Karela": 40, "Parwal": 40, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
+        },
+        "Andhra Pradesh": {
+            mandis: ["Guntur Mirchi Yard", "Adoni Mandi", "Vijayawada Rythu Bazar"],
+            crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 30, "Simla Mirch": 58, "Karela": 40, "Parwal": 50, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 35 }
+        },
+        "Telangana": {
+            mandis: ["Nizamabad Mandi", "Warangal Mirchi Yard", "Bowenpally Mandi (Hyderabad)"],
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 28, "Simla Mirch": 52, "Karela": 40, "Parwal": 48, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
+        },
+        "Kerala": {
+            mandis: ["Kochi Spices Market (Mattancherry)", "Wayanad Spice Mandi", "Calicut Market"],
+            crops: { "Aalu (Potato)": 35, "Pyaj (Onion)": 42, "Tamatar (Tomato)": 45, "Simla Mirch": 70, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 48, "Kaddu (Pumpkin)": 35, "Bhindi": 48, "Beans": 80, "Arbi": 52, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 48, "Gobhi (Cauliflower)": 48 }
+        },
+        "Odisha": {
+            mandis: ["Chhatra Bazar (Cuttack)", "Unit-I Market (Bhubaneswar)", "Berhampur Market"],
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 32, "Simla Mirch": 52, "Karela": 40, "Parwal": 42, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
+        },
+        "Jharkhand": {
+            mandis: ["Pandra Market (Ranchi)", "Jamshedpur Market", "Dhanbad Mandi"],
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 35, "Simla Mirch": 58, "Karela": 42, "Parwal": 48, "Tinda": 45, "Lauki": 28, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 38, "Beans": 65, "Arbi": 42, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
+        },
+        "Chhattisgarh": {
+            mandis: ["Fafadih Mandi (Raipur)", "Rajnandgaon Market", "Bilaspur Yard"],
+            crops: { "Aalu (Potato)": 24, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 28, "Simla Mirch": 52, "Karela": 38, "Parwal": 40, "Tinda": 38, "Lauki": 22, "Turai (Tori)": 30, "Kaddu (Pumpkin)": 22, "Bhindi": 32, "Beans": 55, "Arbi": 38, "Jimikand (Suran)": 50, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 28 }
+        },
+        "Assam": {
+            mandis: ["Fatasil Ambari Mandi (Guwahati)", "Tinsukia Market", "Silchar Yard"],
+            crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 35, "Tamatar (Tomato)": 40, "Simla Mirch": 62, "Karela": 45, "Parwal": 52, "Tinda": 48, "Lauki": 32, "Turai (Tori)": 40, "Kaddu (Pumpkin)": 25, "Bhindi": 40, "Beans": 75, "Arbi": 45, "Jimikand (Suran)": 62, "Kathal (Jackfruit)": 45, "Gobhi (Cauliflower)": 42 }
+        },
+        "Himachal Pradesh": {
+            mandis: ["Solan Sabzi Mandi", "Parwanoo Fruit Mandi", "Shimla Market"],
+            crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 22, "Simla Mirch": 42, "Karela": 40, "Parwal": 48, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 20 }
+        },
+        "Uttarakhand": {
+            mandis: ["Haldwani Mandi", "Dehradun Subzi Mandi", "Haridwar Market"],
+            crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 35, "Simla Mirch": 52, "Karela": 38, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 30, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 38, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 28 }
+        },
+        "Goa": {
+            mandis: ["Margao Market", "Panaji Municipal Market"],
+            crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 42, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 58, "Parwal": 65, "Tinda": 60, "Lauki": 45, "Turai (Tori)": 52, "Kaddu (Pumpkin)": 40, "Bhindi": 52, "Beans": 85, "Arbi": 58, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 58, "Gobhi (Cauliflower)": 55 }
+        },
+        "Tripura": {
+            mandis: ["Krishi Bazar (Agartala)", "Udaipur Market"],
+            crops: { "Aalu (Potato)": 32, "Pyaj (Onion)": 40, "Tamatar (Tomato)": 45, "Simla Mirch": 62, "Karela": 45, "Parwal": 52, "Tinda": 48, "Lauki": 32, "Turai (Tori)": 40, "Kaddu (Pumpkin)": 28, "Bhindi": 40, "Beans": 75, "Arbi": 45, "Jimikand (Suran)": 62, "Kathal (Jackfruit)": 45, "Gobhi (Cauliflower)": 42 }
+        },
+        "Meghalaya": {
+            mandis: ["Mawlai Mandi (Shillong)", "Tura Market"],
+            crops: { "Aalu (Potato)": 37, "Pyaj (Onion)": 45, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
+        },
+        "Manipur": {
+            mandis: ["Khwairamband Bazaar (Imphal)", "Churachandpur Market"],
+            crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 45, "Kaddu (Pumpkin)": 35, "Bhindi": 52, "Beans": 85, "Arbi": 52, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 52, "Gobhi (Cauliflower)": 52 }
+        },
+        "Nagaland": {
+            mandis: ["Super Market Dimapur", "Kohima Agriculture Yard"],
+            crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
+        },
+        "Arunachal Pradesh": {
+            mandis: ["Naharlagun Market", "Itanagar Local Market"],
+            crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 45, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 45, "Kaddu (Pumpkin)": 35, "Bhindi": 50, "Beans": 85, "Arbi": 50, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 52, "Gobhi (Cauliflower)": 52 }
+        },
+        "Mizoram": {
+            mandis: ["Bawngkawn Market (Aizawl)", "Lunglei Market"],
+            crops: { "Aalu (Potato)": 42, "Pyaj (Onion)": 52, "Tamatar (Tomato)": 55, "Simla Mirch": 80, "Karela": 58, "Parwal": 68, "Tinda": 62, "Lauki": 45, "Turai (Tori)": 50, "Kaddu (Pumpkin)": 40, "Bhindi": 58, "Beans": 92, "Arbi": 58, "Jimikand (Suran)": 80, "Kathal (Jackfruit)": 58, "Gobhi (Cauliflower)": 58 }
+        },
+        "Sikkim": {
+            mandis: ["Gangtok Local Mandi", "Singtam Market"],
+            crops: { "Aalu (Potato)": 38, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
         }
     };
 
@@ -247,18 +344,15 @@
         
         resultBox.style.display = "block";
 
-        // Generate WhatsApp Share Link
         let shareText = `*National Agri-Price Prediction*%0A📍 State: ${state}%0A🏛️ Mandi: ${mandi}%0A🌾 Crop: ${crop}%0A💰 Price: ${priceRange}%0A_Developer: Prateek Kumar_`;
         whatsappBtn.href = `https://api.whatsapp.com/send?text=${shareText}`;
 
-        // Render Chart
         renderChart(crop, basePrice);
     }
 
     function renderChart(cropName, basePrice) {
         const ctx = document.getElementById('priceChart').getContext('2d');
         
-        // Mock data for past 6 days trend based on base price
         const prices = [
             basePrice - 3, 
             basePrice - 2, 
@@ -269,7 +363,7 @@
         ];
 
         if (myChart) {
-            myChart.destroy(); // Destroy previous chart to avoid overlap
+            myChart.destroy();
         }
 
         myChart = new Chart(ctx, {
