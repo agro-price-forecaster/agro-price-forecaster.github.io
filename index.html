@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">नेशनल एग्री-प्राइस प्रेडिक्शन</title>
+    <title>AGRO PRICE forecaster - 28 States Mandi Rates & Weather</title>
     <!-- Chart.js CDN for Graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -165,8 +165,8 @@
         <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">English / हिंदी</button>
     </div>
     <div class="header">
-        <h1 id="mainTitle">🌾 नेशनल एग्री-प्राइस प्रेडिक्शन</h1>
-        <p id="subTitle">वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार</p>
+        <h1 id="mainTitle">🌾 AGRO PRICE forecaster</h1>
+        <p id="subTitle">वास्तविक राज्यवार, जिलावार मंडी भाव एवं लाइव कृषि डेटा</p>
     </div>
 
     <div class="form-body">
@@ -183,17 +183,25 @@
             💡 <b>प्रमुख जानकारी:</b> <span id="stateInfoText"></span>
         </div>
 
-        <!-- 2. Mandi Selection -->
+        <!-- 2. District Selection -->
         <div class="form-group">
-            <label id="lblMandi">2. मंडी चुनें (Select Mandi)</label>
-            <select id="mandiSelect">
+            <label id="lblDistrict">2. जिला चुनें (Select District)</label>
+            <select id="districtSelect" onchange="onDistrictChange()">
                 <option value="">--पहले राज्य चुनें / Select State First--</option>
             </select>
         </div>
 
-        <!-- 3. Crop Selection -->
+        <!-- 3. Mandi Selection -->
         <div class="form-group">
-            <label id="lblCrop">3. फसल/सब्जी चुनें (Select Crop)</label>
+            <label id="lblMandi">3. मंडी चुनें (Select Mandi)</label>
+            <select id="mandiSelect">
+                <option value="">--पहले जिला चुनें / Select District First--</option>
+            </select>
+        </div>
+
+        <!-- 4. Crop Selection -->
+        <div class="form-group">
+            <label id="lblCrop">4. फसल/सब्जी चुनें (Select Crop)</label>
             <select id="cropSelect">
                 <option value="">--सब्जी या फसल चुनें / Select Crop--</option>
             </select>
@@ -229,26 +237,30 @@
 
     const translations = {
         hi: {
-            title: "नेशनल एग्री-प्राइस प्रेडिक्शन",
-            subtitle: "वास्तविक राज्यवार मंडी भाव एवं लाइव कृषि उत्पादन भौगोलिक डेटा | डेवलपर: प्रतीक कुमार",
+            title: "AGRO PRICE forecaster",
+            subtitle: "वास्तविक राज्यवार, जिलावार मंडी भाव एवं लाइव कृषि डेटा",
             lblState: "1. राज्य चुनें (Select State)",
-            lblMandi: "2. मंडी चुनें (Select Mandi)",
-            lblCrop: "3. फसल/सब्जी चुनें (Select Crop)",
+            lblDistrict: "2. जिला चुनें (Select District)",
+            lblMandi: "3. मंडी चुनें (Select Mandi)",
+            lblCrop: "4. फसल/सब्जी चुनें (Select Crop)",
             btnText: "AI प्रेडिक्शन और चार्ट देखें 🚀",
             defaultState: "--राज्य चुनें / Select State--",
-            defaultMandi: "--पहले राज्य चुनें / Select State First--",
+            defaultDistrict: "--पहले राज्य चुनें / Select State First--",
+            defaultMandi: "--पहले जिला चुनें / Select District First--",
             defaultCrop: "--सब्जी या फसल चुनें / Select Crop--",
             voiceBtn: "🎙️ बोलकर खोजें (Voice)"
         },
         en: {
-            title: "National Agri-Price Prediction",
-            subtitle: "Real State-wise Mandi Prices & Live Agri-Production Geo-Data | Developer: Prateek Kumar",
+            title: "AGRO PRICE forecaster",
+            subtitle: "Real State-wise, District-wise Mandi Prices & Live Data",
             lblState: "1. Select State",
-            lblMandi: "2. Select Mandi",
-            lblCrop: "3. Select Crop",
+            lblDistrict: "2. Select District",
+            lblMandi: "3. Select Mandi",
+            lblCrop: "4. Select Crop",
             btnText: "View AI Prediction & Chart 🚀",
             defaultState: "--Select State--",
-            defaultMandi: "--Select State First--",
+            defaultDistrict: "--Select State First--",
+            defaultMandi: "--Select District First--",
             defaultCrop: "--Select Crop--",
             voiceBtn: "🎙️ Voice Search"
         }
@@ -257,142 +269,265 @@
     const data = {
         "Uttar Pradesh": {
             topCrop: "गेहूं और आलू (Uttar Pradesh desh mein aalu aur gehun ke utpadan mein sabse aage hai.)",
-            mandis: ["Azad Nagar Mandi (Lucknow)", "Muzaffarnagar Mandi", "Agra Mandi", "Varanasi Mandi"],
+            districts: {
+                "Lucknow": ["Azad Nagar Mandi (Lucknow)", "Kakori Mandi", "Malihabad Mandi"],
+                "Agra": ["Agra Mandi", "Achhnera Mandi", "Shamshabad Mandi"],
+                "Varanasi": ["Varanasi Mandi", "Cholapur Mandi", "Ramnagar Mandi"],
+                "Kanpur Nagar": ["Kanpur Grain Mandi", "Chakeri Mandi", "Kidwai Nagar Market"],
+                "Muzaffarnagar": ["Muzaffarnagar Mandi", "Khatauli Mandi", "Mansurpur Mandi"],
+                "Meerut": ["Meerut Mandi", "Mawana Mandi", "Sardhana Mandi"],
+                "Prayagraj": ["Prayagraj Mandi", "Phulpur Mandi", "Handia Mandi"],
+                "Gorakhpur": ["Gorakhpur Mandi", "Sahjanwa Mandi", "Gola Mandi"]
+            },
             crops: { "Aalu (Potato)": 20, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Maharashtra": {
             topCrop: "प्याज और गन्ना (Maharashtra ki Lasalgaon mandi asia ki sabse badi pyaj mandi hai.)",
-            mandis: ["Vashi APMC Mandi (Navi Mumbai)", "Lasalgaon Mandi (Nashik)", "Pune APMC Market", "Nagpur Mandi"],
+            districts: {
+                "Mumbai City": ["Mumbai APMC Market", "Crawford Market"],
+                "Pune": ["Pune APMC Market", "Hadapsar Mandi", "Khed Mandi"],
+                "Nashik": ["Lasalgaon Mandi (Nashik)", "Pimpalgaon Mandi", "Nashik City Market"],
+                "Nagpur": ["Nagpur Mandi", "Kalmeshwar Market", "Katol Mandi"],
+                "Thane": ["Vashi APMC Mandi (Navi Mumbai)", "Kalyan Mandi", "Bhiwandi Market"],
+                "Aurangabad": ["Chhatrapati Sambhajinagar Mandi", "Vaijapur Market"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 24, "Tamatar (Tomato)": 31, "Simla Mirch": 52, "Karela": 38, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 38, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
         },
         "Bihar": {
             topCrop: "मक्का, आलू और लीची (Bihar mein sabjiyon aur phalon ki kheti mukhyata ki jaati hai.)",
-            mandis: ["Musallahpur Mandi (Patna)", "Muzaffarpur Mandi", "Bhagalpur Market"],
+            districts: {
+                "Patna": ["Musallahpur Mandi (Patna)", "Bakhtiyarpur Mandi", "Patna City Market"],
+                "Muzaffarpur": ["Muzaffarpur Mandi", "Kanti Market", "Motipur Mandi"],
+                "Bhagalpur": ["Bhagalpur Market", "Naugachia Mandi", "Sultanganj Market"],
+                "Gaya": ["Gaya Mandi", "Bodh Gaya Market", "Sherghati Mandi"]
+            },
             crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 35, "Simla Mirch": 52, "Karela": 40, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 30 }
         },
         "Madhya Pradesh": {
             topCrop: "सोयाबीन और लहसुन (Madhya Pradesh ko 'Soybean State' bhi kaha jata hai.)",
-            mandis: ["Neemuch Mandi", "Mandsaur Mandi", "Indore Grain Market", "Ujjain Mandi"],
+            districts: {
+                "Bhopal": ["Bhopal Grain Mandi", "Karond Mandi", "Berasia Market"],
+                "Indore": ["Indore Grain Market", "Laxmi Bai Nagar Mandi", "Mhow Market"],
+                "Neemuch": ["Neemuch Mandi", "Jawad Market"],
+                "Mandsaur": ["Mandsaur Mandi", "Sitamau Market"],
+                "Gwalior": ["Gwalior Mandi", "Dabra Market"],
+                "Jabalpur": ["Jabalpur Mandi", "Sihora Market"]
+            },
             crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 25, "Tamatar (Tomato)": 28, "Simla Mirch": 48, "Karela": 32, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 48, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Rajasthan": {
             topCrop: "सरसों और बाजरा (Rajasthan telhan aur dalhan utpadan mein pramukh hai.)",
-            mandis: ["Muhana Mandi (Jaipur)", "Jodhpur Mandi", "Kota Grain Market", "Bikaner Mandi"],
+            districts: {
+                "Jaipur": ["Muhana Mandi (Jaipur)", "Chomu Mandi", "Kotputli Market"],
+                "Jodhpur": ["Jodhpur Mandi", "Bilara Market", "Phalodi Mandi"],
+                "Kota": ["Kota Grain Market", "Ramganj Mandi"],
+                "Bikaner": ["Bikaner Mandi", "Nokha Market"],
+                "Alwar": ["Alwar Mandi", "Behror Market"]
+            },
             crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 33, "Simla Mirch": 52, "Karela": 40, "Parwal": 45, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 38, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
         },
         "Punjab": {
             topCrop: "गेहूं और धान (Punjab ko Bharat ka 'Annapurna' ya 'Food Bowl' kaha jata hai.)",
-            mandis: ["Khanna Mandi (Ludhiana)", "Amritsar Grain Market", "Patiala Mandi"],
+            districts: {
+                "Ludhiana": ["Khanna Mandi (Ludhiana)", "Ludhiana Grain Market", "Jagraon Mandi"],
+                "Amritsar": ["Amritsar Grain Market", "Ajnala Mandi"],
+                "Patiala": ["Patiala Mandi", "Nabha Market", "Rajpura Mandi"],
+                "Jalandhar": ["Jalandhar Mandi", "Nakodar Market"]
+            },
             crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Haryana": {
             topCrop: "गेहूं, कपास और सरसों (Haryana ki kheti modern technology aur high yield ke liye jani jati hai.)",
-            mandis: ["Karnal Grain Market", "Rohtak APMC Mandi", "Hisar Mandi"],
+            districts: {
+                "Karnal": ["Karnal Grain Market", "Assandh Mandi"],
+                "Rohtak": ["Rohtak APMC Mandi", "Meham Market"],
+                "Hisar": ["Hisar Mandi", "Hansi Market"],
+                "Gurugram": ["Gurugram Subzi Mandi", "Pataudi Market"]
+            },
             crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 27, "Tamatar (Tomato)": 28, "Simla Mirch": 45, "Karela": 35, "Parwal": 40, "Tinda": 35, "Lauki": 22, "Turai (Tori)": 28, "Kaddu (Pumpkin)": 20, "Bhindi": 30, "Beans": 55, "Arbi": 35, "Jimikand (Suran)": 45, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 25 }
         },
         "Gujarat": {
             topCrop: "कपास, जीरा और मूंगफली (Gujarat unjha mandi ke zariye masalon ke vyapar mein sabse aage hai.)",
-            mandis: ["Unjha Mandi", "Gondal Mandi", "Sardar Patel Market (Ahmedabad)"],
+            districts: {
+                "Banaskantha": ["Unjha Mandi", "Palanpur Market"],
+                "Rajkot": ["Gondal Mandi", "Rajkot APMC Yard"],
+                "Ahmedabad": ["Sardar Patel Market (Ahmedabad)", "Sanand Market"],
+                "Surat": ["Surat APMC Mandi", "Bardoli Market"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 25, "Tamatar (Tomato)": 32, "Simla Mirch": 58, "Karela": 40, "Parwal": 48, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 35 }
         },
         "Karnataka": {
             topCrop: "कॉफी, मक्का और टमाटर (Kolar mandi south India ki sabse badi tamatar market hai.)",
-            mandis: ["Kolar APMC Yard", "Yeshwanthpur APMC (Bengaluru)", "Byadgi Mandi"],
+            districts: {
+                "Kolar": ["Kolar APMC Yard", "Bangarpet Market"],
+                "Bengaluru Urban": ["Yeshwanthpur APMC (Bengaluru)", "KR Market"],
+                "Haveri": ["Byadgi Mandi", "Haveri Grain Yard"],
+                "Mysuru": ["Mysuru APMC Mandi", "Nanjangud Market"]
+            },
             crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 22, "Simla Mirch": 52, "Karela": 40, "Parwal": 52, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 42, "Gobhi (Cauliflower)": 35 }
         },
         "Tamil Nadu": {
             topCrop: "धान, केला और नारियल (Tamil Nadu mein behtareen coastal agriculture hoti hai.)",
-            mandis: ["Koyambedu Market (Chennai)", "Madurai Central Market", "Salem Agro Market"],
+            districts: {
+                "Chennai": ["Koyambedu Market (Chennai)"],
+                "Madurai": ["Madurai Central Market", "Melur Mandi"],
+                "Salem": ["Salem Agro Market", "Attur Mandi"],
+                "Coimbatore": ["Coimbatore Central Market", "Pollachi Mandi"]
+            },
             crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 32, "Simla Mirch": 58, "Karela": 40, "Parwal": 52, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 42, "Gobhi (Cauliflower)": 35 }
         },
         "West Bengal": {
             topCrop: "जूट और चावल (West Bengal aloo aur chawal ke utpadan mein pramukh rajya hai.)",
-            mandis: ["Posta Bazar (Kolkata)", "Mechhua Fruit Market", "Siliguri Regulated Market"],
+            districts: {
+                "Kolkata": ["Posta Bazar (Kolkata)", "Mechhua Fruit Market"],
+                "Darjeeling": ["Siliguri Regulated Market", "Darjeeling Subzi Yard"],
+                "Howrah": ["Howrah Wholesale Market", "Uluberia Mandi"]
+            },
             crops: { "Aalu (Potato)": 22, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 30, "Simla Mirch": 58, "Karela": 40, "Parwal": 40, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
         },
         "Andhra Pradesh": {
             topCrop: "मिर्च और तंबाकू (Guntur mirchi yard duniya bhar mein famous hai.)",
-            mandis: ["Guntur Mirchi Yard", "Adoni Mandi", "Vijayawada Rythu Bazar"],
+            districts: {
+                "Guntur": ["Guntur Mirchi Yard", "Tenali Market"],
+                "Kurnool": ["Adoni Mandi", "Kurnool Agricultural Market"],
+                "NTR": ["Vijayawada Rythu Bazar", "Nuzvid Market"]
+            },
             crops: { "Aalu (Potato)": 25, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 30, "Simla Mirch": 58, "Karela": 40, "Parwal": 50, "Tinda": 45, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 35, "Beans": 65, "Arbi": 40, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 35 }
         },
         "Telangana": {
             topCrop: "हल्दी, मक्का और कपास (Telangana mein masalon aur dalon ki kheti badh rahi hai.)",
-            mandis: ["Nizamabad Mandi", "Warangal Mirchi Yard", "Bowenpally Mandi (Hyderabad)"],
+            districts: {
+                "Nizamabad": ["Nizamabad Mandi", "Bodhan Market"],
+                "Warangal": ["Warangal Mirchi Yard", "Narsampet Market"],
+                "Hyderabad": ["Bowenpally Mandi (Hyderabad)", "Gudimalkapur Market"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 28, "Simla Mirch": 52, "Karela": 40, "Parwal": 48, "Tinda": 42, "Lauki": 25, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
         },
         "Kerala": {
             topCrop: "मसाले, रबर और नारियल (Kerala ko 'Spice Garden of India' kaha jata hai.)",
-            mandis: ["Kochi Spices Market (Mattancherry)", "Wayanad Spice Mandi", "Calicut Market"],
+            districts: {
+                "Ernakulam": ["Kochi Spices Market (Mattancherry)", "Aluva Market"],
+                "Wayanad": ["Wayanad Spice Mandi", "Kalpetta Market"],
+                "Kozhikode": ["Calicut Market", "Vadakara Yard"]
+            },
             crops: { "Aalu (Potato)": 35, "Pyaj (Onion)": 42, "Tamatar (Tomato)": 45, "Simla Mirch": 70, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 48, "Kaddu (Pumpkin)": 35, "Bhindi": 48, "Beans": 80, "Arbi": 52, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 48, "Gobhi (Cauliflower)": 48 }
         },
         "Odisha": {
             topCrop: "धान और सब्जियां (Odisha ki mitti mahanadi basin mein faslo ke liye bahut upyogi hai.)",
-            mandis: ["Chhatra Bazar (Cuttack)", "Unit-I Market (Bhubaneswar)", "Berhampur Market"],
+            districts: {
+                "Cuttack": ["Chhatra Bazar (Cuttack)", "Badambadi Market"],
+                "Khordha": ["Unit-I Market (Bhubaneswar)", "Jatni Mandi"],
+                "Ganjam": ["Berhampur Market", "Hinjilicut Yard"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 32, "Simla Mirch": 52, "Karela": 40, "Parwal": 42, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 30 }
         },
         "Jharkhand": {
             topCrop: "धान, मक्का और सब्जियां (Jharkhand ki plateau mitti mein sabjiyon ki achhi paidawar hoti hai.)",
-            mandis: ["Pandra Market (Ranchi)", "Jamshedpur Market", "Dhanbad Mandi"],
+            districts: {
+                "Ranchi": ["Pandra Market (Ranchi)", "Kutchery Market"],
+                "East Singhbhum": ["Jamshedpur Market", "Sakchi Mandi"],
+                "Dhanbad": ["Dhanbad Mandi", "Jharia Market"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 35, "Simla Mirch": 58, "Karela": 42, "Parwal": 48, "Tinda": 45, "Lauki": 28, "Turai (Tori)": 35, "Kaddu (Pumpkin)": 25, "Bhindi": 38, "Beans": 65, "Arbi": 42, "Jimikand (Suran)": 58, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 32 }
         },
         "Chhattisgarh": {
             topCrop: "धान (Chhattisgarh ko 'Dhan ka कटोरा' ya Rice Bowl kaha jata hai.)",
-            mandis: ["Fafadih Mandi (Raipur)", "Rajnandgaon Market", "Bilaspur Yard"],
+            districts: {
+                "Raipur": ["Fafadih Mandi (Raipur)", "Devendra Nagar Market"],
+                "Rajnandgaon": ["Rajnandgaon Market", "Dongargarh Yard"],
+                "Bilaspur": ["Bilaspur Yard", "Takhatpur Mandi"]
+            },
             crops: { "Aalu (Potato)": 24, "Pyaj (Onion)": 30, "Tamatar (Tomato)": 28, "Simla Mirch": 52, "Karela": 38, "Parwal": 40, "Tinda": 38, "Lauki": 22, "Turai (Tori)": 30, "Kaddu (Pumpkin)": 22, "Bhindi": 32, "Beans": 55, "Arbi": 38, "Jimikand (Suran)": 50, "Kathal (Jackfruit)": 35, "Gobhi (Cauliflower)": 28 }
         },
         "Assam": {
             topCrop: "चाय और धान (Assam duniya bhar mein apni tea cultivation ke liye prasiddh hai.)",
-            mandis: ["Fatasil Ambari Mandi (Guwahati)", "Tinsukia Market", "Silchar Yard"],
+            districts: {
+                "Kamrup Metropolitan": ["Fatasil Ambari Mandi (Guwahati)", "Paltan Bazar Market"],
+                "Tinsukia": ["Tinsukia Market", "DoomDooma Yard"],
+                "Cachar": ["Silchar Yard", "Lakhipur Market"]
+            },
             crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 35, "Tamatar (Tomato)": 40, "Simla Mirch": 62, "Karela": 45, "Parwal": 52, "Tinda": 48, "Lauki": 32, "Turai (Tori)": 40, "Kaddu (Pumpkin)": 25, "Bhindi": 40, "Beans": 75, "Arbi": 45, "Jimikand (Suran)": 62, "Kathal (Jackfruit)": 45, "Gobhi (Cauliflower)": 42 }
         },
         "Himachal Pradesh": {
             topCrop: "सेब और आलू (Pahadi ilakon mein organic sabjiyan aur phaldar paudhe ugaye jate hain.)",
-            mandis: ["Solan Sabzi Mandi", "Parwanoo Fruit Mandi", "Shimla Market"],
+            districts: {
+                "Solan": ["Solan Sabzi Mandi", "Parwanoo Fruit Mandi"],
+                "Shimla": ["Shimla Market", "Rohru Mandi"],
+                "Kangra": ["Dharamshala Market", "Palampur Yard"]
+            },
             crops: { "Aalu (Potato)": 30, "Pyaj (Onion)": 38, "Tamatar (Tomato)": 22, "Simla Mirch": 42, "Karela": 40, "Parwal": 48, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 32, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 40, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 40, "Gobhi (Cauliflower)": 20 }
         },
         "Uttarakhand": {
             topCrop: "मड़ुआ (Ragi) और मौसमी सब्जियां (Himalayi kshetra mein organic farming ko badhava diya jata hai.)",
-            mandis: ["Haldwani Mandi", "Dehradun Subzi Mandi", "Haridwar Market"],
+            districts: {
+                "Nainital": ["Haldwani Mandi", "Ramnagar Market"],
+                "Dehradun": ["Dehradun Subzi Mandi", "Rishikesh Yard"],
+                "Haridwar": ["Haridwar Market", "Roorkee Mandi"]
+            },
             crops: { "Aalu (Potato)": 27, "Pyaj (Onion)": 32, "Tamatar (Tomato)": 35, "Simla Mirch": 52, "Karela": 38, "Parwal": 45, "Tinda": 40, "Lauki": 25, "Turai (Tori)": 30, "Kaddu (Pumpkin)": 22, "Bhindi": 35, "Beans": 60, "Arbi": 38, "Jimikand (Suran)": 52, "Kathal (Jackfruit)": 38, "Gobhi (Cauliflower)": 28 }
         },
         "Goa": {
             topCrop: "चावल और नारियल (Goa ki coastal climate tropical fruits ke liye anukul hai.)",
-            mandis: ["Margao Market", "Panaji Municipal Market"],
+            districts: {
+                "South Goa": ["Margao Market", "Vasco da Gama Yard"],
+                "North Goa": ["Panaji Municipal Market", "Mapusa Market"]
+            },
             crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 42, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 58, "Parwal": 65, "Tinda": 60, "Lauki": 45, "Turai (Tori)": 52, "Kaddu (Pumpkin)": 40, "Bhindi": 52, "Beans": 85, "Arbi": 58, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 58, "Gobhi (Cauliflower)": 55 }
         },
         "Tripura": {
             topCrop: "धान और अनानास (Tripura mein bagwani faslein badi matra mein hoti hain.)",
-            mandis: ["Krishi Bazar (Agartala)", "Udaipur Market"],
+            districts: {
+                "West Tripura": ["Krishi Bazar (Agartala)", "Jirania Market"],
+                "South Tripura": ["Udaipur Market", "Belonia Yard"]
+            },
             crops: { "Aalu (Potato)": 32, "Pyaj (Onion)": 40, "Tamatar (Tomato)": 45, "Simla Mirch": 62, "Karela": 45, "Parwal": 52, "Tinda": 48, "Lauki": 32, "Turai (Tori)": 40, "Kaddu (Pumpkin)": 28, "Bhindi": 40, "Beans": 75, "Arbi": 45, "Jimikand (Suran)": 62, "Kathal (Jackfruit)": 45, "Gobhi (Cauliflower)": 42 }
         },
         "Meghalaya": {
             topCrop: "अदरक, हल्दी और आलू (Meghalaya ki mitti organic spices ke liye behtareen hai.)",
-            mandis: ["Mawlai Mandi (Shillong)", "Tura Market"],
+            districts: {
+                "East Khasi Hills": ["Mawlai Mandi (Shillong)", " Bara Bazar Market"],
+                "West Garo Hills": ["Tura Market", "Phulbari Yard"]
+            },
             crops: { "Aalu (Potato)": 37, "Pyaj (Onion)": 45, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
         },
         "Manipur": {
             topCrop: "धान और सब्जियां (Manipur ki loktak lake ke aas-paas unique wetland farming hoti hai.)",
-            mandis: ["Khwairamband Bazaar (Imphal)", "Churachandpur Market"],
+            districts: {
+                "Imphal West": ["Khwairamband Bazaar (Imphal)", "Lamphel Market"],
+                "Churachandpur": ["Churachandpur Market", "Singngat Yard"]
+            },
             crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 45, "Kaddu (Pumpkin)": 35, "Bhindi": 52, "Beans": 85, "Arbi": 52, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 52, "Gobhi (Cauliflower)": 52 }
         },
         "Nagaland": {
             topCrop: "मक्का, धान और अदरक (Nagaland mein traditional terrace farming ki jati hai.)",
-            mandis: ["Super Market Dimapur", "Kohima Agriculture Yard"],
+            districts: {
+                "Dimapur": ["Super Market Dimapur", "Circular Road Market"],
+                "Kohima": ["Kohima Agriculture Yard", "Bazar Bay Market"]
+            },
             crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
         },
         "Arunachal Pradesh": {
             topCrop: "फल और मक्का (Yahan par temperate fruits aur local crops ugaye jate hain.)",
-            mandis: ["Naharlagun Market", "Itanagar Local Market"],
+            districts: {
+                "Papum Pare": ["Naharlagun Market", "Itanagar Local Market"],
+                "East Siang": ["Pasighat Market", "Mebo Yard"]
+            },
             crops: { "Aalu (Potato)": 40, "Pyaj (Onion)": 45, "Tamatar (Tomato)": 50, "Simla Mirch": 75, "Karela": 52, "Parwal": 62, "Tinda": 58, "Lauki": 40, "Turai (Tori)": 45, "Kaddu (Pumpkin)": 35, "Bhindi": 50, "Beans": 85, "Arbi": 50, "Jimikand (Suran)": 75, "Kathal (Jackfruit)": 52, "Gobhi (Cauliflower)": 52 }
         },
         "Mizoram": {
             topCrop: "बांस और बागवानी फसलें (Mizoram mein jhum kheti aur horticulture ko badhava milta hai.)",
-            mandis: ["Bawngkawn Market (Aizawl)", "Lunglei Market"],
-            crops: { "Aalu (Potato)": 42, "Pyaj (Onion)": 52, "Tamatar (Tomato)": 55, "Simla Mirch": 80, "Karela": 58, "Parwal": 68, "Tinda": 62, "Lauki": 45, "Turai (Tori)": 50, "Kaddu (Pumpkin)": 40, "Bhindi": 58, "Beans": 92, "Arbi": 58, "Jimikand (Suran)": 80, "Kathal (Jackfruit)": 58, "Gobhi (Card)": 58 }
+            districts: {
+                "Aizawl": ["Bawngkawn Market (Aizawl)", "New Market Aizawl"],
+                "Lunglei": ["Lunglei Market", "Hnahthial Yard"]
+            },
+            crops: { "Aalu (Potato)": 42, "Pyaj (Onion)": 52, "Tamatar (Tomato)": 55, "Simla Mirch": 80, "Karela": 58, "Parwal": 68, "Tinda": 62, "Lauki": 45, "Turai (Tori)": 50, "Kaddu (Pumpkin)": 40, "Bhindi": 58, "Beans": 92, "Arbi": 58, "Jimikand (Suran)": 80, "Kathal (Jackfruit)": 58, "Gobhi (Cauliflower)": 58 }
         },
         "Sikkim": {
             topCrop: "इलायची (Sikkim bhar ka pehla 100% organic farming wala rajya hai.)",
-            mandis: ["Gangtok Local Mandi", "Singtam Market"],
+            districts: {
+                "Gangtok": ["Gangtok Local Mandi", "Lall Bazar Market"],
+                "Namchi": ["Namchi Market", "Singtam Market"]
+            },
             crops: { "Aalu (Potato)": 38, "Pyaj (Onion)": 48, "Tamatar (Tomato)": 50, "Simla Mirch": 70, "Karela": 50, "Parwal": 58, "Tinda": 52, "Lauki": 38, "Turai (Tori)": 42, "Kaddu (Pumpkin)": 30, "Bhindi": 48, "Beans": 80, "Arbi": 50, "Jimikand (Suran)": 70, "Kathal (Jackfruit)": 50, "Gobhi (Cauliflower)": 48 }
         }
     };
@@ -416,26 +551,27 @@
 
     function onStateChange() {
         const selectedState = document.getElementById("stateSelect").value;
+        const districtSelect = document.getElementById("districtSelect");
         const mandiSelect = document.getElementById("mandiSelect");
         const cropSelect = document.getElementById("cropSelect");
         const stateInfoCard = document.getElementById("stateInfoCard");
         const stateInfoText = document.getElementById("stateInfoText");
 
+        districtSelect.innerHTML = `<option value="">${translations[currentLang].defaultDistrict}</option>`;
         mandiSelect.innerHTML = `<option value="">${translations[currentLang].defaultMandi}</option>`;
         cropSelect.innerHTML = `<option value="">${translations[currentLang].defaultCrop}</option>`;
 
         if (selectedState && data[selectedState]) {
-            // Show State Info
             stateInfoCard.style.display = "block";
             stateInfoText.textContent = data[selectedState].topCrop;
 
-            // Populate Mandis
-            data[selectedState].mandis.forEach(mandi => {
+            // Populate Districts
+            for (let district in data[selectedState].districts) {
                 let option = document.createElement("option");
-                option.value = mandi;
-                option.textContent = mandi;
-                mandiSelect.appendChild(option);
-            });
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            }
 
             // Populate Crops
             for (let crop in data[selectedState].crops) {
@@ -449,6 +585,24 @@
         }
     }
 
+    function onDistrictChange() {
+        const selectedState = document.getElementById("stateSelect").value;
+        const selectedDistrict = document.getElementById("districtSelect").value;
+        const mandiSelect = document.getElementById("mandiSelect");
+
+        mandiSelect.innerHTML = `<option value="">--मंडी चुनें / Select Mandi--</option>`;
+
+        if (selectedState && selectedDistrict && data[selectedState].districts[selectedDistrict]) {
+            let mandis = data[selectedState].districts[selectedDistrict];
+            mandis.forEach(mandi => {
+                let option = document.createElement("option");
+                option.value = mandi;
+                option.textContent = mandi;
+                mandiSelect.appendChild(option);
+            });
+        }
+    }
+
     function toggleLanguage() {
         currentLang = currentLang === 'hi' ? 'en' : 'hi';
         let t = translations[currentLang];
@@ -456,20 +610,25 @@
         document.getElementById("mainTitle").textContent = t.title;
         document.getElementById("subTitle").textContent = t.subtitle;
         document.getElementById("lblState").textContent = t.lblState;
+        document.getElementById("lblDistrict").textContent = t.lblDistrict;
         document.getElementById("lblMandi").textContent = t.lblMandi;
         document.getElementById("lblCrop").textContent = t.lblCrop;
         document.getElementById("btnSubmitText").textContent = t.btnText;
         document.getElementById("voiceBtnText").textContent = t.voiceBtn;
 
         const currentState = document.getElementById("stateSelect").value;
+        const currentDistrict = document.getElementById("districtSelect").value;
         populateStates();
         if(currentState) {
             document.getElementById("stateSelect").value = currentState;
             onStateChange();
+            if(currentDistrict) {
+                document.getElementById("districtSelect").value = currentDistrict;
+                onDistrictChange();
+            }
         }
     }
 
-    // Voice Search Feature using Web Speech API
     function startVoiceSearch() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
             alert(currentLang === 'hi' ? "आपका ब्राउज़र वॉइस सर्च सपोर्ट नहीं करता है!" : "Your browser does not support voice search!");
@@ -488,7 +647,6 @@
             const spokenText = event.results[0][0].transcript.toLowerCase();
             const stateSelect = document.getElementById("stateSelect");
             
-            // Match spoken text with available states
             for (let i = 0; i < stateSelect.options.length; i++) {
                 let stateName = stateSelect.options[i].text.toLowerCase();
                 if (spokenText.includes(stateName)) {
@@ -506,6 +664,7 @@
 
     function showPrice() {
         const state = document.getElementById("stateSelect").value;
+        const district = document.getElementById("districtSelect").value;
         const mandi = document.getElementById("mandiSelect").value;
         const crop = document.getElementById("cropSelect").value;
         const resultBox = document.getElementById("resultBox");
@@ -514,8 +673,8 @@
         const weatherWidget = document.getElementById("weatherWidget");
         const whatsappBtn = document.getElementById("whatsappShare");
 
-        if (!state || !mandi || !crop) {
-            alert(currentLang === 'hi' ? "कृपया पहले राज्य, मंडी और फसल तीनों चुनें!" : "Please select State, Mandi, and Crop first!");
+        if (!state || !district || !mandi || !crop) {
+            alert(currentLang === 'hi' ? "कृपया पहले राज्य, जिला, मंडी और फसल सभी चुनें!" : "Please select State, District, Mandi, and Crop first!");
             return;
         }
 
@@ -523,21 +682,21 @@
         let priceRange = `₹${basePrice - 5} - ₹${basePrice + 5} / kg`;
 
         let weatherText = currentLang === 'hi' ? 
-            `🌤️ ${state} (${mandi}) मौसम अपडेट: तापमान 27°C - 31°C, हल्की हवा, फसल कटाई के लिए उत्तम मौसम।` :
-            `🌤️ ${state} (${mandi}) Weather: Temp 27°C - 31°C, Gentle breeze, favorable for harvesting.`;
+            `🌤️ ${district}, ${state} (${mandi}) मौसम अपडेट: तापमान 27°C - 31°C, हल्की हवा, फसल कटाई के लिए उत्तम मौसम।` :
+            `🌤️ ${district}, ${state} (${mandi}) Weather: Temp 27°C - 31°C, Gentle breeze, favorable for harvesting.`;
         weatherWidget.textContent = weatherText;
 
         resTitle.textContent = currentLang === 'hi' ? `📍 ${crop} का अनुमानित भाव` : `📍 Estimated Price for ${crop}`;
         
         if(currentLang === 'hi') {
-            resDetails.innerHTML = `<b>राज्य:</b> ${state} <br><b>मंडी:</b> ${mandi} <br><b>फसल:</b> ${crop} <br><b>वर्तमान एग्री-प्राइस:</b> <span style="color: #d32f2f; font-size: 18px; font-weight: bold;">${priceRange}</span>`;
+            resDetails.innerHTML = `<b>राज्य:</b> ${state} <br><b>जिला:</b> ${district} <br><b>मंडी:</b> ${mandi} <br><b>फसल:</b> ${crop} <br><b>वर्तमान एग्री-प्राइस:</b> <span style="color: #d32f2f; font-size: 18px; font-weight: bold;">${priceRange}</span>`;
         } else {
-            resDetails.innerHTML = `<b>State:</b> ${state} <br><b>Mandi:</b> ${mandi} <br><b>Crop:</b> ${crop} <br><b>Current Agri-Price:</b> <span style="color: #d32f2f; font-size: 18px; font-weight: bold;">${priceRange}</span>`;
+            resDetails.innerHTML = `<b>State:</b> ${state} <br><b>District:</b> ${district} <br><b>Mandi:</b> ${mandi} <br><b>Crop:</b> ${crop} <br><b>Current Agri-Price:</b> <span style="color: #d32f2f; font-size: 18px; font-weight: bold;">${priceRange}</span>`;
         }
         
         resultBox.style.display = "block";
 
-        let shareText = `*National Agri-Price Prediction*%0A📍 State: ${state}%0A🏛️ Mandi: ${mandi}%0A🌾 Crop: ${crop}%0A💰 Price: ${priceRange}%0A_Developer: Prateek Kumar_`;
+        let shareText = `*AGRO PRICE forecaster*%0A📍 State: ${state}%0A📌 District: ${district}%0A🏛️ Mandi: ${mandi}%0A🌾 Crop: ${crop}%0A💰 Price: ${priceRange}`;
         whatsappBtn.href = `https://api.whatsapp.com/send?text=${shareText}`;
 
         renderChart(crop, basePrice);
