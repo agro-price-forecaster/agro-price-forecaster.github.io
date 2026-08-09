@@ -186,20 +186,20 @@
 
     <div class="header">
         <h1>🌾 AGRO PRICE Forecaster</h1>
-        <p>Advanced AI-Driven Mandi Price Prediction System for India</p>
+        <p>Advanced AI-Driven Mandi Price Prediction System for India (States & UTs)</p>
     </div>
 
     <div class="form-body">
         <div class="grid-2">
-            <!-- 1. State Selection -->
+            <!-- 1. State / UT Selection -->
             <div class="form-group">
-                <label>1. राज्य चुनें (Select State)</label>
+                <label>1. राज्य / केंद्रशासित प्रदेश चुनें (Select State / UT)</label>
                 <select id="stateSelect" onchange="loadDistricts()">
-                    <option value="">-- राज्य चुनें --</option>
+                    <option value="">-- राज्य / UT चुनें --</option>
                 </select>
             </div>
 
-            <!-- State Info Box -->
+            <!-- State/UT Info Box -->
             <div class="form-group" style="grid-column: span 2;">
                 <div class="info-card" id="stateInfoCard">
                     💡 <b>प्रमुख विशेषता:</b> <span id="stateInfoText"></span>
@@ -210,7 +210,7 @@
             <div class="form-group">
                 <label>2. जिला चुनें (Select District)</label>
                 <select id="districtSelect" onchange="loadMandis()">
-                    <option value="">-- पहले राज्य चुनें --</option>
+                    <option value="">-- पहले राज्य / UT चुनें --</option>
                 </select>
             </div>
 
@@ -290,128 +290,159 @@
         "Moongfali (Groundnut)": 65
     };
 
-    // Full 28 States, UTs and their districts database
+    // Full 28 States & 8 Union Territories database with comprehensive districts
     const stateDistrictData = {
+        // --- STATES ---
         "Uttar Pradesh": {
             top: "आलू, गेहूं और गन्ने के उत्पादन में अग्रणी।",
-            districts: ["Agra", "Aligarh", "Prayagraj", "Varanasi", "Lucknow", "Kanpur", "Meerut", "Gorakhpur", "Bareilly", "Mathura", "Jhansi", "Saharanpur", "Ayodhya", "Ghaziabad", "Moradabad", "Azamgarh", "Basti", "Mirzapur", "Muzaffarnagar", "Sitapur"]
+            districts: ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar (Noida)", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kheri (Lakhimpur)", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Prayagraj", "Rae Bareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"]
         },
         "Madhya Pradesh": {
             top: "सोयाबीन स्टेट - दलहन और तिलहन का प्रमुख केंद्र।",
-            districts: ["Indore", "Bhopal", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Dewas", "Satna", "Ratlam", "Rewa", "Katni", "Khandwa", "Khargone", "Mandsaur", "Neemuch", "Vidisha", "Shivpuri", "Chhindwara", "Sehore", "Hoshangabad"]
+            districts: ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dindigul", "Dindori", "Guna", "Gwalior", "Harda", "Narmadapuram (Hoshangabad)", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"]
         },
         "Bihar": {
             top: "मक्का, मखाना और सब्जियों के उत्पादन में विशेष।",
-            districts: ["Patna", "Gaya", "Muzaffarpur", "Bhagalpur", "Purnia", "Darbhanga", "Ara", "Begusarai", "Katihar", "Chhapra", "Samastipur", "Sitamarhi", "Munger", "Madhubani", "Saharsa", "Siwan", "Kishanganj", "Bettiah", "Motihari", "Nalanda"]
+            districts: ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur (Ara)", "Buxar", "Darbhanga", "East Champaran (Motihari)", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran (Chhapra)", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran (Bettiah)"]
         },
         "Rajasthan": {
             top: "सरसों, बाजरा और मसालों का प्रमुख उत्पादक।",
-            districts: ["Jaipur", "Jodhpur", "Kota", "Bikaner", "Ajmer", "Udaipur", "Bhilwara", "Alwar", "Sikar", "Bharatpur", "Jaisalmer", "Barmer", "Pali", "Tonk", "Hanumangarh", "Ganganagar", "Churu", "Nagaur", "Sawai Madhopur", "Banswara"]
+            districts: ["Ajmer", "Alwar", "Anupgarh", "Balotra", "Banswara", "Baran", "Barmer", "Beawar", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Deeg", "Dholpur", "Didwana-Kuchaman", "Dudu", "Dungarpur", "Sri Ganganagar", "Gangapur City", "Hanumangarh", "Jaipur", "Jaipur Rural", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Jodhpur Rural", "Karauli", "Kekri", "Kotputli-Behror", "Kota", "Nagaur", "Pali", "Phalodi", "Pratapgarh", "Rajsamand", "Salumbar", "Sawai Madhopur", "Sikar", "Sirohi", "Tonk", "Udaipur"]
         },
         "Maharashtra": {
             top: "प्याज (लासलगांव) और अंगूर उत्पादन में एशिया में प्रसिद्ध।",
-            districts: ["Mumbai", "Pune", "Nagpur", "Nashik", "Chhatrapati Sambhajinagar", "Solapur", "Amravati", "Kolhapur", "Latur", "Jalgaon", "Thane", "Satara", "Ahilyanagar", "Dhule", "Nanded", "Jalna", "Chandrapur", "Parbhani", "Beed", "Sangli"]
+            districts: ["Ahmednagar", "Akola", "Amravati", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Chhatrapati Sambhajinagar (Aurangabad)", "Dharashiv (Osmanabad)", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"]
         },
         "Punjab": {
             top: "भारत का 'फूड बाउल' - गेहूं और धान का विशाल भंडार।",
-            districts: ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Hoshiarpur", "Mohali", "Batala", "Pathankot", "Moga", "Firozpur", "Abohar", "Sangrur", "Faridkot", "Kapurthala", "Malerkotla", "Muktsar", "Barnala", "Mansa", "Rupnagar"]
+            districts: ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Firozpur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga", "Sri Muktsar Sahib", "Pathankot", "Patiala", "Rupnagar (Ropar)", "Sahibzada Ajit Singh Nagar (Mohali)", "Sangrur", "Shaheed Bhagat Singh Nagar (Nawanshahr)", "Tarn Taran"]
         },
         "Haryana": {
             top: "गेहूं, बासमती चावल और बागवानी में अग्रणी।",
-            districts: ["Gurugram", "Faridabad", "Panipat", "Ambala", "Yamunanagar", "Rohtak", "Hisar", "Karnal", "Sonipat", "Panchkula", "Bhiwani", "Sirsa", "Jind", "Fatehabad", "Kurukshetra", "Mahendragarh", "Narnaul", "Palwal", "Nuh", "Jhajjar"]
+            districts: ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Nuh", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"]
         },
         "Gujarat": {
             top: "कपास, जीरा (उंझा) और मूंगफली का सबसे बड़ा केंद्र।",
-            districts: ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Navsari", "Mehsana", "Palanpur", "Patan", "Amreli", "Morbi", "Surendranagar", "Valsad", "Godhra", "Dahod", "Bharuch"]
+            districts: ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"]
         },
         "West Bengal": {
             top: "चावल (धान) और जूट उत्पादन में देश में शीर्ष पर।",
-            districts: ["Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri", "Kharagpur", "Haldia", "Bardhaman", "Malda", "Barasat", "Krishnanagar", "Jalpaiguri", "Cooch Behar", "Purulia", "Bankura", "Birbhum", "Midnapore", "Raiganj", "Balurghat", "Serampore"]
+            districts: ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"]
         },
         "Karnataka": {
             top: "कॉफी, रागी, रेशम और मसालों का प्रमुख उत्पादक।",
-            districts: ["Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi", "Kalaburagi", "Davanagere", "Ballari", "Vijayapura", "Shivamogga", "Tumakuru", "Raichur", "Bidar", "Hassan", "Udupi", "Chikkamagaluru", "Mandya", "Kolar", "Chitradurga", "Gadag"]
+            districts: ["Bagalkot", "Bangalore Rural", "Bangalore Urban (Bengaluru)", "Belagavi", "Ballari (Bellary)", "Bidar", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi (Gulbarga)", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru (Mysore)", "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)", "Udupi", "Uttara Kannada (Karwar)", "Vijayapura (Bijapur)", "Yadgir"]
         },
         "Tamil Nadu": {
             top: "केला, धान और कृषि बागवानी में अग्रणी।",
-            districts: ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode", "Vellore", "Thoothukudi", "Dindigul", "Thanjavur", "Ranipet", "Sivaganga", "Karimangalam", "Cuddalore", "Kanchipuram", "Tiruppur", "Namakkal", "Virudhunagar", "Pudukkottai"]
+            districts: ["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur", "Theni", "Thoothukudi (Tuticorin)", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"]
         },
         "Andhra Pradesh": {
             top: "तंबाकू, मिर्च (गुंटूर) और धान का कटोरा।",
-            districts: ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Kakinada", "Tirupati", "Rajahmundry", "Kadapa", "Anantapur", "Eluru", "Ongole", "Srikakulam", "Vizianagaram", "Nandyal", "Bapatla", "Palnadu", "Chittoor", "Machilipatnam", "Amalapuram"]
+            districts: ["Alluri Sitharama Raju", "Anakapalli", "Ananthapuramu", "Annamayya", "Bapatla", "Chittoor", "Dr. B.R. Ambedkar Konaseema", "East Godavari", "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Nandyal", "NTR", "Palnadu", "Parvathipuram Manyam", "Prakasam", "Sri Potti Sriramulu Nellore", "Sri Sathya Sai", "Srikakulam", "Tirupati", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"]
         },
         "Telangana": {
             top: "कपास, मक्का और धान की हाई-टेक खेती।",
-            districts: ["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Ramagundam", "Mahabubnagar", "Nalgonda", "Adilabad", "Suryapet", "Siddipet", "Sangareddy", "Vikarabad", "Jagtial", "Nirmal", "Kothagudem", "Wanaparthy", "Kamareddy", "Medak", "Mahabubabad"]
+            districts: ["Adilabad", "Bhadradri Kothagudem", "Hanamkonda", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal–Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Ranga Reddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal", "Yadadri Bhuvanagiri"]
         },
         "Kerala": {
             top: "मसालों का बगीचा - काली मिर्च, इलायची और नारियल।",
-            districts: ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Thrissur", "Alappuzha", "Palakkad", "Malappuram", "Kannur", "Kottayam", "Wayanad", "Idukki", "Kasaragod", "Pathanamthitta"]
+            districts: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"]
         },
         "Odisha": {
             top: "धान और जैविक हल्दी उत्पादन का प्रमुख केंद्र।",
-            districts: ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur", "Puri", "Balasore", "Bhadrak", "Baripada", "Jharsuguda", "Angul", "Dhenkanal", "Koraput", "Rayagada", "Bargarh", "Balangir", "Kandhamal", "Kendujhar", "Nayagarh", "Jajpur"]
+            districts: ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar (Keonjhar)", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur (Sonepur)", "Sundargarh"]
         },
         "Jharkhand": {
             top: "खनिज संपदा के साथ मक्का और मौसमी सब्जियां।",
-            districts: ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih", "Ramgarh", "Medininagar", "Chaibasa", "Dumka", "Sahibganj", "Gumla", "Khunti", "Lohardaga", "Simdega", "Jamtara", "Pakur", "Koderma", "Chatra"]
+            districts: ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum (Jamshedpur)", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"]
         },
         "Chhattisgarh": {
             top: "धान का कटोरा - वनोपज और टमाटर उत्पादन।",
-            districts: ["Raipur", "Bhilai", "Bilaspur", "Korba", "Durg", "Rajnandgaon", "Raigarh", "Jagdalpur", "Ambikapur", "Dhamtari", "Kanker", "Kawardha", "Mahasamund", "Jashpur", "Bemetara", "Balod", "Surajpur", "Koriya", "Narayanpur", "Bijapur"]
+            districts: ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada (South Bastar)", "Dhamtari", "Durg", "Gariaband", "Gaurela Pendra Marwahi", "Janjgir-Champa", "Jashpur", "Kanker (North Bastar)", "Kawardha (Kabirdham)", "Kondagaon", "Korba", "Koriya", "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Ambagarh Chowki", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"]
         },
         "Assam": {
             top: "विश्वप्रसिद्ध असम चाय और चावल की खेती।",
-            districts: ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon", "Tinsukia", "Tezpur", "Bongaigaon", "Karimganj", "Diphu", "Goalpara", "Barpeta", "Lakhimpur", "Sivasagar", "Goalpara", "Nalbari", "Kokrajhar", "Dhubri", "Majuli", "Hojai"]
+            districts: ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"]
         },
         "Uttarakhand": {
             top: "पहाड़ी कृषि, सेब, औषधीय पौधे और बासमती चावल।",
-            districts: ["Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudrapur", "Kashipur", "Rishikesh", "Pithoragarh", "Almora", "Nainital", "Tehri", "Pauri", "Chamoli", "Uttarkashi", "Champawat", "Bageshwar", "Rudraprayag"]
+            districts: ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"]
         },
         "Himachal Pradesh": {
             top: "सेब, नाशपाती और ठंडे प्रदेश की सब्जियों का गढ़।",
-            districts: ["Shimla", "Mandi", "Solan", "Dharamshala", "Baddi", "Nahan", "Una", "Kullu", "Palampur", "Bilaspur", "Chamba", "Hamirpur", "Kinnaur", "Lahaul and Spiti", "Nurpur", "Dehra"]
-        },
-        "Jammu and Kashmir": {
-            top: "केसर, सेब, अखरोट और कश्मीरी फलों की खेती।",
-            districts: ["Srinagar", "Jammu", "Anantnag", "Baramulla", "Sopore", "Kathua", "Udhampur", "Poonch", "Rajouri", "Ganderbal", "Kulgam", "Pulwama", "Shopian", "Bandipora", "Kishtwar", "Doda", "Ramban", "Samba"]
-        },
-        "Tripura": {
-            top: "अनानास (Pineapple) और रबर की बागवानी।",
-            districts: ["Agartala", "Udaipur", "Dharmanagar", "Kailashahar", "Belonia", "Khowai", "Ambassa", "Melaghar", "Sonamura", "Ranirbazar", "Kamalpur", "Sabroom"]
-        },
-        "Meghalaya": {
-            top: "अदरक, हल्दी और चेरापूंजी के अनूठे कृषि उत्पाद।",
-            districts: ["Shillong", "Tura", "Jowai", "Nongpoh", "Baghmara", "Williamnagar", "Resubelpara", "Mairang", "Khliehriat", "Mawkyrwat"]
+            districts: ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"]
         },
         "Manipur": {
             top: "चावल, अनानास और पहाड़ी कृषि उत्पाद।",
-            districts: ["Imphal", "Thoubal", "Bishnupur", "Churachandpur", "Kakching", "Ukhrul", "Senapati", "Tamenglong", "Jiribam", "Kangpokpi", "Noney", "Pherzawl"]
+            districts: ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"]
         },
-        "Nagaland": {
-            top: "विश्वप्रसिद्ध 'राजा मिर्च' (Bhut Jolokia) और धान।",
-            districts: ["Dimapur", "Kohima", "Mokokchung", "Tuensang", "Wokha", "Zunheboto", "Kiphire", "Phek", "Longleng", "Noklak", "Chumoukedima", "Tseminyu"]
-        },
-        "Goa": {
-            top: "काजू, नारियल और तटीय बागवानी फसलें।",
-            districts: ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda", "Bicholim", "Curchorem", "Sanquelim", "Canacona", "Quepem"]
-        },
-        "Arunachal Pradesh": {
-            top: "कीवी, सेब, संतरा और हिमालयी बागवानी।",
-            districts: ["Itanagar", "Naharlagun", "Pasighat", "Namsai", "Ziro", "Tawang", "Bomdila", "Tezu", "Aalo", "Changlang", "Roing", "Tezu", "Khonsa", "Yingkiong"]
+        "Meghalaya": {
+            top: "अदरक, हल्दी और चेरापूंजी के अनूठे कृषि उत्पाद।",
+            districts: ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"]
         },
         "Mizoram": {
             top: "बांस, संतरा और अंगूर की खेती।",
-            districts: ["Aizawl", "Lunglei", "Champhai", "Serchhip", "Kolasib", "Lawngtlai", "Siaha", "Hnahthial", "Khawzawl", "Saitual"]
+            districts: ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saitual", "Serchhip", "Siaha"]
+        },
+        "Nagaland": {
+            top: "विश्वप्रसिद्ध 'राजा मिर्च' (Bhut Jolokia) और धान।",
+            districts: ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Noklak", "Peren", "Phek", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"]
         },
         "Sikkim": {
             top: "भारत का पहला पूर्ण जैविक (100% Organic) राज्य और इलायची उत्पादक।",
-            districts: ["Gangtok", "Namchi", "Gyalshing", "Mangan", "Pakyong", "Soreng", "Singtam", "Rangpo", "Jorethang", "Ravangla"]
+            districts: ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"]
+        },
+        "Tripura": {
+            top: "अनानास (Pineapple) और रबर की बागवानी।",
+            districts: ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"]
+        },
+        "Arunachal Pradesh": {
+            top: "कीवी, सेब, संतरा और हिमालयी बागवानी।",
+            districts: ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"]
+        },
+        "Goa": {
+            top: "काजू, नारियल और तटीय बागवानी फसलें।",
+            districts: ["North Goa", "South Goa"]
+        },
+
+        // --- UNION TERRITORIES (UTs) ---
+        "Andaman and Nicobar Islands": {
+            top: "नारियल, सुपारी और समुद्री तटीय बागवानी।",
+            districts: ["Nicobar", "North and Middle Andaman", "South Andaman"]
+        },
+        "Chandigarh": {
+            top: "आधुनिक शहरी कृषि और बागवानी पार्क।",
+            districts: ["Chandigarh"]
+        },
+        "Dadra and Nagar Haveli and Daman and Diu": {
+            top: "धान, नागली और बागवानी फसलें।",
+            districts: ["Dadra and Nagar Haveli", "Daman", "Diu"]
+        },
+        "Delhi (NCT)": {
+            top: "पुष्प उत्पादन, मशरूम और शहरी कृषि का बड़ा बाजार।",
+            districts: ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"]
+        },
+        "Jammu and Kashmir": {
+            top: "केसर, सेब, अखरोट और कश्मीरी फलों की खेती।",
+            districts: ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"]
+        },
+        "Ladakh": {
+            top: "सीबकथर्न (Seabuckthorn), खुबानी (Apricot) और ठंडे रेगिस्तान की कृषि।",
+            districts: ["Kargil", "Leh"]
+        },
+        "Lakshadweep": {
+            top: "नारियल और टूना मछली उत्पादन।",
+            districts: ["Agatti", "Amini", "Andrott", "Bitra", "Chethlat", "Kavaratti", "Kadmat", "Kalpeni", "Minicoy"]
+        },
+        "Puducherry": {
+            top: "नारियल, केला और तटीय कृषि फसलें।",
+            districts: ["Karaikal", "Mahe", "Puducherry", "Yanam"]
         }
     };
 
     window.onload = function() {
-        // Load States
+        // Load States and UTs
         const stateSelect = document.getElementById('stateSelect');
         for (let state in stateDistrictData) {
             let opt = document.createElement('option');
@@ -478,7 +509,7 @@
         const crop = document.getElementById('cropSelect').value;
 
         if (!state || !dist || !mandi || !crop) {
-            alert("कृपया सभी विकल्प (राज्य, जिला, मंडी और फसल) चुनें!");
+            alert("कृपया सभी विकल्प (राज्य/UT, जिला, मंडी और फसल) चुनें!");
             return;
         }
 
@@ -502,7 +533,7 @@
 
         document.getElementById('resTitle').textContent = `📊 ${crop} भाव रिपोर्ट: ${mandi}`;
         document.getElementById('resDetails').innerHTML = `
-            <b>राज्य:</b> ${state} | <b>जिला:</b> ${dist} | <b>मंडी:</b> ${mandi}<br>
+            <b>राज्य / UT:</b> ${state} | <b>जिला:</b> ${dist} | <b>मंडी:</b> ${mandi}<br>
             <b>फसल:</b> ${crop}<br><br>
             💡 <b>AI विश्लेषण:</b> ${dist} की स्थानीय मंडियों में पिछले 5 दिनों की मांग, परिवहन लागत और मौसम की स्थिति के आधार पर यह भाव सटीक अनुमानित हैं। किसान इस मूल्य पर अपनी फसल बेचकर बेहतर मुनाफा कमा सकते हैं।
         `;
@@ -559,7 +590,7 @@
         recognition.maxAlternatives = 1;
 
         recognition.onstart = function() {
-            alert("सुन रहे हैं... राज्य का नाम बोलिए (जैसे: Uttar Pradesh, Bihar)");
+            alert("सुन रहे हैं... राज्य या UT का नाम बोलिए (जैसे: Delhi, Uttar Pradesh)");
         };
 
         recognition.onresult = function(event) {
