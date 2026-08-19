@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AGRO PRICE Forecaster - National Level AI Mandi System</title>
- <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">  
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -184,6 +183,10 @@
             border-radius: 8px;
             border: 1px solid #ddd;
         }
+        .site-logo {
+            text-align: center;
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
@@ -265,11 +268,19 @@
             <div class="chart-container">
                 <canvas id="priceChart"></canvas>
             </div>
-<div class="site-logo">
-    <svg viewBox="0 0 200 200">
-        <!-- Tumhara pasandida graph aur leaf ka SVG code -->
-    </svg>
-</div>
+
+            <!-- Logo Section Added Here -->
+            <div class="site-logo">
+                <svg viewBox="0 0 200 200" width="70" height="70" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="90" fill="#111827" />
+                    <circle cx="100" cy="100" r="75" fill="none" stroke="#374151" stroke-width="2" stroke-dasharray="6 4" />
+                    <path d="M70 140 V60 H105 C125 60 135 70 135 85 C135 100 125 110 105 110 H70" 
+                          fill="none" stroke="#F3F4F6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M100 110 L135 140" 
+                          stroke="#F3F4F6" stroke-width="12" stroke-linecap="round" />
+                </svg>
+            </div>
+
             <a id="whatsappShare" href="#" target="_blank" class="whatsapp-btn">💬 WhatsApp पर भाव शेयर करें</a>
         </div>
     </div>
@@ -330,7 +341,7 @@
             districts: ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Nuh", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"]
         },
         "Gujarat": {
-            top: "कपास, जीरा और मूंगफली का सबसे बड़ा केंद्र।",
+            top: "कपास, जीरा और मूंगफली का सबसे बड़ा केंद्र।",
             districts: ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"]
         },
         "West Bengal": {
